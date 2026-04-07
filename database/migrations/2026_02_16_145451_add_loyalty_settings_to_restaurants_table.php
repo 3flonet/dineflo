@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('restaurants', function (Blueprint $table) {
+            $table->decimal('loyalty_silver_threshold', 15, 2)->default(1000000);
+            $table->decimal('loyalty_gold_threshold', 15, 2)->default(5000000);
+            $table->integer('loyalty_point_rate')->default(1000); // Rp 1.000 = 1 Point
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('restaurants', function (Blueprint $table) {
+            //
+        });
+    }
+};
