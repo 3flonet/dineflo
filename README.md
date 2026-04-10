@@ -14,6 +14,9 @@
 
 ## ✨ Key Features
 
+For a comprehensive deep dive into the **44+ advanced features** and detailed system architecture, please refer to our [**Dineflo Project Overview & Feature Guide**](PROJECT_OVERVIEW.md).
+
+
 ### 🏢 Multi-Tenancy Architecture
 - **Isolated Tenants:** Each restaurant operates in its own secure environment.
 - **Role-Based Access (RBAC):** Granular permissions for Super Admins, Restaurant Owners, and Staff.
@@ -25,12 +28,16 @@
 - **Advanced Cart:** Support for variants, add-ons, and upsells.
 - **EDC Payment Integration:** Native support for physical bank terminals with MDR fee tracking and reconciliation.
 - **Flexible Payments:** Integrated with Midtrans for seamless online transactions.
+- **Draggable & Customizable Dashboard:** Personalize widget layouts per-user with an interactive drag-and-drop interface.
+
 
 ### 🍳 Operational Management
 - **Kitchen Display System (KDS):** Real-time order monitoring for kitchen efficiency.
 - **Inventory Tracking:** Manage ingredients and stock movements automatically.
 - **Loyalty Program:** Tiered loyalty points (Silver, Gold) to increase customer retention.
+- **Manual Menu Reordering:** Easily organize menu categories and items using a simple drag-and-drop handles.
 - **Marketing Tools:** Integrated Email and WhatsApp campaign management.
+
 
 ### 🔐 Robust License Protection
 - **Remote Verification:** Centralized license management via 3Flo LicenseHub.
@@ -61,6 +68,8 @@ Detailed guide for setting up Dineflo on a local machine using **Laragon**, **XA
 *   Project cloning and dependency installation (`composer`, `npm`).
 *   Development asset compilation (`npm run dev`).
 *   Local activation and web-based installer steps.
+*   **Automatic Restaurant Trial:** New restaurants automatically receive a complimentary trial package upon registration.
+
 
 ### 🌐 [Production Deployment Guide](DEPLOYMENT_INSTALLATION.md)
 Essential steps for deploying Dineflo to a production server, including:
@@ -86,8 +95,10 @@ Dineflo now features an intelligent web-based installer that simplifies deployme
 | :--- | :--- |
 | `php artisan license:ping` | Manually sync license status with server. |
 | `php artisan license:send-warnings` | Send expiration emails to customers (runs daily). |
+| `php artisan dineflo:sync-permissions` | Sync & update permissions to all restaurant roles. |
 | `php artisan schedule:work` | Start the local scheduler for background tasks. |
 | `php artisan optimize:clear` | Clear all system caches. |
+
 
 ---
 

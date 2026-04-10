@@ -34,13 +34,13 @@ class SyncRestaurantPermissions extends Command
                 // ── User Management ───────────────────────────────────────
                 'view_any_user', 'view_user', 'create_user', 'update_user', 'delete_user',
                 // ── Menu Item ─────────────────────────────────────────────
-                'view_any_menu_item', 'view_menu_item', 'create_menu_item', 'update_menu_item', 'delete_menu_item',
+                'view_any_menu_item', 'view_menu_item', 'create_menu_item', 'update_menu_item', 'delete_menu_item', 'reorder_menu_item',
                 // ── Menu Category ─────────────────────────────────────────
-                'view_any_menu_category', 'view_menu_category', 'create_menu_category', 'update_menu_category', 'delete_menu_category',
+                'view_any_menu_category', 'view_menu_category', 'create_menu_category', 'update_menu_category', 'delete_menu_category', 'reorder_menu_category',
                 // ── Order ─────────────────────────────────────────────────
                 'view_any_order', 'view_order', 'create_order', 'update_order', 'delete_order',
                 // ── Table ─────────────────────────────────────────────────
-                'view_any_table', 'view_table', 'create_table', 'update_table', 'delete_table',
+                'view_any_table', 'view_table', 'create_table', 'update_table', 'delete_table', 'reorder_table',
                 // ── Role ──────────────────────────────────────────────────
                 'view_any_role', 'view_role', 'update_role',
                 // ── Gift Card ─────────────────────────────────────────────

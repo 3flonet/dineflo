@@ -43,6 +43,7 @@ class RestaurantPanelProvider extends PanelProvider
             ->id('restaurant')
             ->path('restaurants')
             ->login(\App\Filament\Restaurant\Pages\Auth\Login::class)
+            ->passwordReset()
             ->favicon($favicon)
             ->brandName($brandName)
             ->databaseNotifications()
@@ -111,6 +112,10 @@ class RestaurantPanelProvider extends PanelProvider
             ->renderHook(
                 'panels::topbar.start',
                 fn (): string => \Illuminate\Support\Facades\Blade::render('@livewire(\'restaurant.subscription-warning-badge\')'),
+            )
+            ->renderHook(
+                'panels::content.start',
+                fn (): \Illuminate\Contracts\View\View => view('filament.restaurant.components.trial-banner'),
             )
             ->renderHook(
                 'panels::body.start',

@@ -18,7 +18,9 @@ class TopSellingItemsWidget extends BaseWidget
 
     protected static ?string $heading = 'Menu Paling Laku (Top Selling)';
 
-    protected int | string | array $columnSpan = 'half';
+    protected static ?int $sort = 2;
+
+    protected int | string | array $columnSpan = 1;
 
     public ?array $filters = null;
 

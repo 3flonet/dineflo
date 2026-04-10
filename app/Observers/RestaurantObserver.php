@@ -39,13 +39,31 @@ class RestaurantObserver
         }
 
         // Assign role 'restaurant_admin' ke pemilik restoran
-        if ($restaurant->user) {
+        if ($restaurant->owner) {
             $adminRole = \App\Models\Role::where('name', 'restaurant_admin')
                 ->where('restaurant_id', $restaurant->id)
                 ->first();
 
             if ($adminRole) {
-                $restaurant->user->assignRole($adminRole);
+                $restaurant->owner->assignRole($adminRole);
+            }
+
+            // --- OTOMATIS TRIAL LOGIC ---
+            // Cek apakah owner sudah punya subscription aktif
+            $owner = $restaurant->owner;
+            if (!$owner->activeSubscription()->exists()) {
+                // Cari paket yang ditandai sebagai trial
+                $trialPlan = \App\Models\SubscriptionPlan::where('is_trial', true)->where('is_active', true)->first();
+
+                if ($trialPlan) {
+                    \App\Models\Subscription::create([
+                        'user_id' => $owner->id,
+                        'subscription_plan_id' => $trialPlan->id,
+                        'status' => 'active',
+                        'starts_at' => now(),
+                        'expires_at' => now()->addDays($trialPlan->duration_days),
+                    ]);
+                }
             }
         }
     }

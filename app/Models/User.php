@@ -83,6 +83,7 @@ class User extends Authenticatable implements HasTenants, FilamentUser
         'password',
         'restaurant_id',
         'notification_preferences',
+        'settings',
     ];
 
     /**
@@ -106,6 +107,7 @@ class User extends Authenticatable implements HasTenants, FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'notification_preferences' => 'array',
+            'settings' => 'array',
         ];
     }
 

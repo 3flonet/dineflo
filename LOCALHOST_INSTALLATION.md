@@ -70,6 +70,7 @@ cp .env.example .env
 6. **Step 5: Migrations & Finalization:**
    - The installer runs database migrations and seeds.
    - **`APP_INSTALLED`** will be automatically set to `true` in your `.env` and an `installed.lock` file will be created.
+   - **Automated Restaurant Trial:** New restaurants automatically receive a complimentary trial package upon registration for immediate testing.
 
 ---
 

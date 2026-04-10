@@ -103,6 +103,7 @@ sudo supervisorctl start dineflo-reverb
 3. Follow the same activation steps as in [Localhost Installation](LOCALHOST_INSTALLATION.md) with enhanced features:
    - **Auto-SSL Detection:** The installer detects `https` in your `APP_URL` and automatically configures Reverb to use **Secure WebSockets (WSS)** on port **443**.
    - **Background Engine Startup:** Upon finalization, the installer attempts to run `nohup php artisan reverb:start &` to start real-time features immediately.
+   - **Permission Sync:** The installer automatically triggers `php artisan dineflo:sync-permissions` to ensure all roles are correctly configured.
    - **License Verification:** Authenticate your production instance with the 3FLO Central Hub.
 4. Once completed, the system will be locked for production use.
 

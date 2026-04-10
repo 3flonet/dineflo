@@ -138,7 +138,8 @@ class TableResource extends Resource
                 ]),
             ])
             ->striped()
-            ->defaultSort('name')
+            ->reorderable('sort_order')
+            ->defaultSort('sort_order')
             ->persistFiltersInSession()
             ->filtersFormColumns(1);
     }

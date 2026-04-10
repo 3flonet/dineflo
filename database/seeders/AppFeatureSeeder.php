@@ -563,6 +563,19 @@ class AppFeatureSeeder extends Seeder
                         <li><b>Transfer Stok Antar Cabang:</b> Kelola pergerakan bahan baku antar outlet untuk menyeimbangkan stok dan mengurangi pemborosan di satu lokasi.</li>
                     </ul>'
                 ],
+                [
+                    'Draggable & Personal Dashboard', 
+                    'Atur posisi widget dashboard sesuka hati. Setiap user punya tata letak sendiri.', 
+                    ['Drag & Drop interactivity', 'Auto-save layout per user', 'Native Filament aesthetic', 'Fixed top Welcome widget'], 
+                    'Standar',
+                    '<h3>Dashboard yang Mengikuti Cara Kerja Anda</h3>
+                    <p>Setiap pemilik restoran memiliki prioritas data yang berbeda. Dengan <b>Draggable Dashboard</b>, Dineflo memberikan kebebasan penuh bagi Anda untuk menyusun informasi yang paling penting di posisi paling strategis.</p>
+                    <ul>
+                        <li><b>Sesuai Kebutuhan:</b> Ingin melihat "Top Selling Items" di urutan pertama? Cukup klik dan tarik ke atas.</li>
+                        <li><b>Simpan Otomatis:</b> Sistem secara cerdas menyimpan koordinat widget Anda ke dalam database, sehingga saat Anda login dari perangkat lain, tampilan tetap sesuai keinginan Anda.</li>
+                        <li><b>Multi-User Layout:</b> Admin dan Kasir bisa memiliki susunan dashboard yang berbeda-beda sesuai dengan fokus pekerjaan mereka masing-masing.</li>
+                    </ul>'
+                ],
             ]],
             ['tab' => 'support', 'cards' => [
                 [

@@ -29,11 +29,6 @@ class AdminPanelProvider extends PanelProvider
             'panels::body.end',
             fn(): View => view('filament.auth.footer'),
         );
-        // Add license warning banner at the top of the admin panel
-        FilamentView::registerRenderHook(
-            'panels::body.start',
-            fn(): \Illuminate\Contracts\View\View => view('admin.license.banner'),
-        );
     }
 
     public function panel(Panel $panel): Panel
@@ -54,6 +49,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->passwordReset()
             ->favicon($favicon)
             ->brandName($brandName)
             ->colors([
@@ -89,6 +85,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->renderHook(
+                'panels::body.start',
+                fn(): \Illuminate\Contracts\View\View => view('admin.license.banner'),
+            );
     }
 }

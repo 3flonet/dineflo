@@ -66,6 +66,11 @@ class SubscriptionPlanResource extends Resource
                             ->default(false)
                             ->onColor('warning')
                             ->offColor('gray'),
+                        Forms\Components\Toggle::make('is_trial')
+                            ->label('Jadikan Paket Trial Otomatis')
+                            ->helperText('Jika aktif, restoran baru akan otomatis berlangganan paket ini.')
+                            ->default(false)
+                            ->onColor('success'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Features & Limits')
@@ -185,6 +190,13 @@ class SubscriptionPlanResource extends Resource
                     ->trueIcon('heroicon-o-star')
                     ->falseIcon('heroicon-o-minus')
                     ->trueColor('warning')
+                    ->falseColor('gray'),
+                Tables\Columns\IconColumn::make('is_trial')
+                    ->label('Trial')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-gift')
+                    ->falseIcon('heroicon-o-minus')
+                    ->trueColor('success')
                     ->falseColor('gray'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

@@ -55,14 +55,88 @@
         {{ $this->filtersForm }}
     @endif
 
-    <x-filament-widgets::widgets
-        :columns="$this->getColumns()"
-        :data="
-            [
-                ...(property_exists($this, 'filters') ? ['filters' => $this->filters] : []),
-                ...$this->getWidgetData(),
-            ]
-        "
-        :widgets="$this->getVisibleWidgets()"
-    />
+    {{-- ─── Fixed Account Widget (Non-draggable) ────────────────────────── --}}
+    @foreach ($this->getVisibleWidgets() as $widget)
+        @if ($widget === \Filament\Widgets\AccountWidget::class)
+            <div class="fi-wi-account mb-6">
+                @livewire($widget, [
+                    'data' => [
+                        ...(property_exists($this, 'filters') ? ['filters' => $this->filters] : []),
+                        ...$this->getWidgetData(),
+                    ]
+                ], key($widget))
+            </div>
+            @php break; @endphp
+        @endif
+    @endforeach
+
+    {{-- ─── Draggable Widgets Container ───────────────────────────────────── --}}
+    <div 
+        id="dashboard-widgets-container"
+        class="grid grid-cols-1 gap-6 fi-wi-widgets-grid md:grid-cols-2 lg:grid-cols-2"
+        style="grid-auto-flow: dense;"
+    >
+        @foreach ($this->getVisibleWidgets() as $widget)
+            @if ($widget === \Filament\Widgets\AccountWidget::class) @continue @endif
+            
+            @php
+                $columnSpan = (new $widget)->getColumnSpan();
+                $spanClass = '';
+                if ($columnSpan === 'full') {
+                    $spanClass = 'md:col-span-2 lg:col-span-2';
+                } elseif (is_numeric($columnSpan)) {
+                    if($columnSpan >= 2) $spanClass = 'md:col-span-2 lg:col-span-2';
+                }
+            @endphp
+            <div 
+                data-id="{{ $widget }}" 
+                class="widget-sortable-item {{ $spanClass }}"
+                style="cursor: grab;"
+                onmousedown="this.style.cursor='grabbing'"
+                onmouseup="this.style.cursor='grab'"
+            >
+                @livewire($widget, [
+                    'data' => [
+                        ...(property_exists($this, 'filters') ? ['filters' => $this->filters] : []),
+                        ...$this->getWidgetData(),
+                    ]
+                ], key($widget))
+            </div>
+        @endforeach
+    </div>
+
+    {{-- ─── SortableJS Integration ────────────────────────────────────────── --}}
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('dashboard-widgets-container');
+            
+            if (container) {
+                new Sortable(container, {
+                    animation: 150,
+                    ghostClass: 'opacity-50',
+                    swapThreshold: 0.65,
+                    draggable: ".widget-sortable-item",
+                    onEnd: function (evt) {
+                        const items = container.querySelectorAll('.widget-sortable-item');
+                        const order = Array.from(items).map(item => item.getAttribute('data-id'));
+                        
+                        // Send to Livewire
+                        @this.call('updateWidgetOrder', order);
+                    }
+                });
+            }
+        });
+    </script>
+
+    <style>
+        .widget-sortable-item > div {
+            height: 100%;
+        }
+        .opacity-50 {
+            opacity: 0.5;
+            border: 2px dashed #94a3b8;
+            border-radius: 1rem;
+        }
+    </style>
 </x-filament-panels::page>

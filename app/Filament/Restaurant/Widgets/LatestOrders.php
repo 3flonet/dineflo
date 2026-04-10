@@ -15,8 +15,8 @@ class LatestOrders extends BaseWidget
         return auth()->user()->can('widget_LatestOrders');
     }
 
-    protected static ?int $sort = 4;
-    protected int | string | array $columnSpan = '1';
+    protected static ?int $sort = 3;
+    protected int | string | array $columnSpan = 1;
 
     protected static ?string $heading = 'Recent Orders';
 

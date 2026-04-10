@@ -18,6 +18,7 @@ class SubscriptionPlan extends Model
         'duration_days' => 'integer',
         'is_active' => 'boolean',
         'is_highlighted' => 'boolean',
+        'is_trial' => 'boolean',
         'billing_period' => 'string',
     ];
 }
