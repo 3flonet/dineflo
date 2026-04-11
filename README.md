@@ -14,7 +14,7 @@
 
 ## ✨ Key Features
 
-For a comprehensive deep dive into the **44+ advanced features** and detailed system architecture, please refer to our [**Dineflo Project Overview & Feature Guide**](PROJECT_OVERVIEW.md).
+For a comprehensive deep dive into the **46+ advanced features** and detailed system architecture, please refer to our [**Dineflo Project Overview & Feature Guide**](PROJECT_OVERVIEW.md).
 
 
 ### 🏢 Multi-Tenancy Architecture
@@ -24,6 +24,7 @@ For a comprehensive deep dive into the **44+ advanced features** and detailed sy
 
 ### 💳 POS & Ordering System
 - **Digital Menu:** Beautiful, responsive customer-facing menu with QR code integration.
+- **Hybrid Real-time Notifications:** Support for **Laravel Reverb** (VPS) and **Pusher** (Shared Hosting) for instant notifications.
 - **Waiter Call System:** Real-time table-to-staff notifications via WebSockets.
 - **Advanced Cart:** Support for variants, add-ons, and upsells.
 - **EDC Payment Integration:** Native support for physical bank terminals with MDR fee tracking and reconciliation.
@@ -39,7 +40,8 @@ For a comprehensive deep dive into the **44+ advanced features** and detailed sy
 - **Marketing Tools:** Integrated Email and WhatsApp campaign management.
 
 
-### 🔐 Robust License Protection
+### 🔐 Robust License Protection & Security
+- **Security Ambiguity:** Enhanced password reset flow to prevent user enumeration.
 - **Remote Verification:** Centralized license management via 3Flo LicenseHub.
 - **Security:** HMAC-SHA256 digital signatures for all server responses.
 - **Grace Period:** 7-day operational safety net if a license expires.
@@ -47,15 +49,19 @@ For a comprehensive deep dive into the **44+ advanced features** and detailed sy
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack & Infrastructure
 
-- **Framework:** [Laravel 11](https://laravel.com)
-- **Admin Panel:** [Filament v3](https://filamentphp.com)
-- **Frontend Logic:** [Livewire](https://livewire.laravel.com) & [Alpine.js](https://alpinejs.dev)
-- **Database:** MySQL 8.0+
-- **Real-time:** [Laravel Reverb](https://reverb.laravel.com) (WebSocket)
-- **Styling:** TailwindCSS
-- **Reporting:** DomPDF & Maatwebsite Excel
+Dineflo is built on a modern, high-performance stack designed for stability and rapid scalability.
+
+| Layer | Technologies |
+| :--- | :--- |
+| **Backend** | ![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white) ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white) |
+| **Admin Panel** | ![Filament](https://img.shields.io/badge/Filament-v3-fca311?style=for-the-badge&logo=filament) ![Livewire](https://img.shields.io/badge/livewire-%234e56a6.svg?style=for-the-badge&logo=livewire&logoColor=white) |
+| **Real-time** | ![Reverb](https://img.shields.io/badge/Laravel_Reverb-FF2D20?style=for-the-badge&logo=laravel) ![Pusher](https://img.shields.io/badge/Pusher-300D4F?style=for-the-badge&logo=pusher&logoColor=white) |
+| **Database** | ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white) ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white) |
+| **Frontend** | ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Alpine.js](https://img.shields.io/badge/alpine.js-%238BC0D0.svg?style=for-the-badge&logo=alpine.js&logoColor=white) |
+| **Deployment** | ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) |
+| **Tools** | ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![Composer](https://img.shields.io/badge/composer-%23885630.svg?style=for-the-badge&logo=composer&logoColor=white) |
 
 ---
 

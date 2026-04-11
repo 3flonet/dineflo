@@ -74,6 +74,20 @@ class GeneralSettings extends Settings
     public ?string $smtp_encryption;
     public ?string $smtp_from_address;
     public ?string $smtp_from_name;
+    
+    // ── Broadcasting & Real-time Settings ────────────────────────────────────
+    public string $broadcast_driver = 'reverb';
+    public ?string $pusher_app_id;
+    public ?string $pusher_app_key;
+    public ?string $pusher_app_secret;
+    public ?string $pusher_app_cluster;
+    
+    public ?string $reverb_app_id;
+    public ?string $reverb_app_key;
+    public ?string $reverb_app_secret;
+    public ?string $reverb_host;
+    public ?int $reverb_port;
+    public ?string $reverb_scheme;
 
     public static function group(): string
     {

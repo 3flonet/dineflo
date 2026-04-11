@@ -112,6 +112,32 @@ class AppServiceProvider extends ServiceProvider
                     ]);
                 }
 
+                // Override Broadcasting
+                config([
+                    'broadcasting.default' => $settings->broadcast_driver,
+                    'broadcasting.connections.pusher.key' => $settings->pusher_app_key,
+                    'broadcasting.connections.pusher.secret' => (function() use ($settings) {
+                        try { return \Illuminate\Support\Facades\Crypt::decryptString($settings->pusher_app_secret); } catch (\Exception $e) { return $settings->pusher_app_secret; }
+                    })(),
+                    'broadcasting.connections.pusher.app_id' => $settings->pusher_app_id,
+                    'broadcasting.connections.pusher.options.cluster' => $settings->pusher_app_cluster,
+                    
+                    'broadcasting.connections.reverb.key' => $settings->reverb_app_key,
+                    'broadcasting.connections.reverb.secret' => (function() use ($settings) {
+                        try { return \Illuminate\Support\Facades\Crypt::decryptString($settings->reverb_app_secret); } catch (\Exception $e) { return $settings->reverb_app_secret; }
+                    })(),
+                    'broadcasting.connections.reverb.app_id' => $settings->reverb_app_id,
+                    'broadcasting.connections.reverb.options.host' => $settings->reverb_host,
+                    'broadcasting.connections.reverb.options.port' => $settings->reverb_port,
+                    'broadcasting.connections.reverb.options.scheme' => $settings->reverb_scheme,
+                ]);
+
+                // Inject Broadcasting Config to Javascript
+                FilamentView::registerRenderHook(
+                    'panels::head.end',
+                    fn (): string => view('components.broadcasting-config', ['settings' => $settings])->render()
+                );
+
                 // Override Midtrans
                 if ($settings->midtrans_server_key) {
                     $serverKey = $settings->midtrans_server_key;

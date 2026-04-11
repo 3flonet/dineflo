@@ -278,6 +278,103 @@ class ManageSettings extends SettingsPage
                                         ->color('primary'),
                                 ]),
                             ]),
+                        
+                        Forms\Components\Tabs\Tab::make('Real-time (Broadcasting)')
+                            ->icon('heroicon-m-signal')
+                            ->schema([
+                                Forms\Components\Select::make('broadcast_driver')
+                                    ->label('Broadcasting Driver')
+                                    ->options([
+                                        'reverb' => '📡 Internal Server (Laravel Reverb)',
+                                        'pusher' => '☁️ Cloud Service (Pusher)',
+                                    ])
+                                    ->required()
+                                    ->live()
+                                    ->helperText(new \Illuminate\Support\HtmlString('
+                                        <div class="space-y-2">
+                                            <b>💡 Tips Panduan Server:</b><br>
+                                            <ul class="list-disc ml-4 space-y-1">
+                                                <li>
+                                                    <b>Jika pilih Reverb (VPS):</b> Jalankan perintah 
+                                                    <code class="bg-gray-100 p-1 rounded">php artisan reverb:start</code> 
+                                                    <button type="button" onclick="const btn = this; navigator.clipboard.writeText(\'php artisan reverb:start\'); const oldText = btn.innerText; btn.innerText = \'Copied! ✅\'; setTimeout(() => btn.innerText = oldText, 2000)" class="text-xs text-blue-600 underline ml-1 font-bold">Copy</button>. 
+                                                    Agar tetap menyala, gunakan 
+                                                    <code class="bg-gray-100 p-1 rounded">nohup php artisan reverb:start > /dev/null 2>&1 &</code> 
+                                                    <button type="button" onclick="const btn = this; navigator.clipboard.writeText(\'nohup php artisan reverb:start > /dev/null 2>&1 &\'); const oldText = btn.innerText; btn.innerText = \'Copied! ✅\'; setTimeout(() => btn.innerText = oldText, 2000)" class="text-xs text-blue-600 underline ml-1 font-bold">Copy</button>.
+                                                </li>
+                                                <li>
+                                                    <b>Jika pilih Pusher (Shared Hosting):</b> Sistem otomatis mengirim data ke cloud Pusher. Anda <b>bebas ribet</b>, tidak perlu menjalankan perintah terminal apapun di server.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    ')),
+
+                                Forms\Components\Actions::make([
+                                    Forms\Components\Actions\Action::make('howToSetupPusher')
+                                        ->label('📖 Cara Setup Pusher')
+                                        ->icon('heroicon-m-question-mark-circle')
+                                        ->color('info')
+                                        ->visible(fn (Forms\Get $get) => $get('broadcast_driver') === 'pusher')
+                                        ->modalHeading('Panduan Mendapatkan API Pusher')
+                                        ->modalDescription('Ikuti langkah berikut untuk mengaktifkan fitur real-time via Pusher:')
+                                        ->modalContent(view('components.pusher-tutorial-modal'))
+                                        ->modalSubmitAction(false),
+                                ]),
+
+                                Forms\Components\Section::make('Laravel Reverb Configuration')
+                                    ->visible(fn (Forms\Get $get) => $get('broadcast_driver') === 'reverb')
+                                    ->schema([
+                                        Forms\Components\Grid::make(3)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('reverb_app_id')->label('App ID')->required(),
+                                                Forms\Components\TextInput::make('reverb_app_key')->label('App Key')->required(),
+                                                Forms\Components\TextInput::make('reverb_app_secret')
+                                                    ->label('App Secret')
+                                                    ->password()
+                                                    ->revealable()
+                                                    ->required()
+                                                    ->formatStateUsing(function ($state) {
+                                                        if (!$state) return null;
+                                                        try { return \Illuminate\Support\Facades\Crypt::decryptString($state); } catch (\Exception $e) { return $state; }
+                                                    })
+                                                    ->dehydrateStateUsing(fn ($state) => $state ? \Illuminate\Support\Facades\Crypt::encryptString($state) : null),
+                                            ]),
+                                        Forms\Components\Grid::make(3)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('reverb_host')->label('Host')->placeholder('e.g. dineflo.test')->required(),
+                                                Forms\Components\TextInput::make('reverb_port')->label('Port')->numeric()->default(8081)->required(),
+                                                Forms\Components\Select::make('reverb_scheme')
+                                                    ->label('Scheme')
+                                                    ->options([
+                                                        'http' => 'HTTP',
+                                                        'https' => 'HTTPS',
+                                                    ])
+                                                    ->default('http')
+                                                    ->required(),
+                                            ]),
+                                    ]),
+
+                                Forms\Components\Section::make('Pusher Configuration')
+                                    ->visible(fn (Forms\Get $get) => $get('broadcast_driver') === 'pusher')
+                                    ->schema([
+                                        Forms\Components\Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('pusher_app_id')->label('App ID')->required(),
+                                                Forms\Components\TextInput::make('pusher_app_key')->label('App Key')->required(),
+                                                Forms\Components\TextInput::make('pusher_app_secret')
+                                                    ->label('App Secret')
+                                                    ->password()
+                                                    ->revealable()
+                                                    ->required()
+                                                    ->formatStateUsing(function ($state) {
+                                                        if (!$state) return null;
+                                                        try { return \Illuminate\Support\Facades\Crypt::decryptString($state); } catch (\Exception $e) { return $state; }
+                                                    })
+                                                    ->dehydrateStateUsing(fn ($state) => $state ? \Illuminate\Support\Facades\Crypt::encryptString($state) : null),
+                                                Forms\Components\TextInput::make('pusher_app_cluster')->label('Cluster')->placeholder('e.g. ap1')->required(),
+                                            ]),
+                                    ]),
+                            ]),
 
                         Forms\Components\Tabs\Tab::make('Finance & Fee')
                             ->icon('heroicon-m-currency-dollar')

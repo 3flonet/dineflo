@@ -76,8 +76,27 @@ Add the following entry to your server's crontab (`crontab -e -u www-data`):
 ```
 This enables daily license pings, expiration warnings, and automated reports.
 
-### 2. Reverb & WebSockets (Supervisord)
-To keep the Reverb server running background, use **Supervisor**. Create a config file (e.g., `/etc/supervisor/conf.d/dineflo-reverb.conf`):
+### 2. Reverb & WebSockets (Real-time Features) - Opsional
+
+Dineflo v2 mendukung dua jenis koneksi real-time yang dapat diatur melalui **Admin Dashboard > Settings > Manage Settings > Real-time (Broadcasting)**.
+
+#### **A. Menggunakan Pusher (Rekomendasi Shared Hosting / cPanel)**
+Jika Anda menggunakan hosting biasa, gunakan Pusher untuk kemudahan instalasi:
+1. Pilih **Cloud Service (Pusher)** di panel admin.
+2. Masukkan API Key dari pusher.com.
+3. Klik Simpan. Tidak perlu konfigurasi server tambahan.
+
+#### **B. Menggunakan Laravel Reverb (Rekomendasi VPS)**
+Jika Anda menggunakan VPS, Anda bisa menggunakan Reverb (gratis):
+1. Pilih **Internal Server (Laravel Reverb)** di panel admin.
+2. Jalankan server Reverb di terminal VPS Anda:
+   ```bash
+   php artisan reverb:start
+   ```
+3. Agar tetap berjalan di latar belakang, gunakan **nohup** atau **Supervisord**:
+
+**Akses via Supervisord (Produksi):**
+Buat file `/etc/supervisor/conf.d/dineflo-reverb.conf`:
 ```ini
 [program:dineflo-reverb]
 command=php /var/www/dineflo/artisan reverb:start
@@ -87,7 +106,7 @@ user=www-data
 redirect_stderr=true
 stdout_logfile=/var/www/dineflo/storage/logs/reverb.log
 ```
-Update supervisor:
+Lalu aktifkan:
 ```bash
 sudo supervisorctl reread
 sudo supervisorctl update

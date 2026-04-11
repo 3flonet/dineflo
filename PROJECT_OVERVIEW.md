@@ -63,12 +63,14 @@
 36. **Self-Service Kiosk:** Layar sentuh mandiri di lobi restoran untuk pelanggan memesan dan membayar langsung tanpa bantuan kasir.
 37. **Member Loyalty & Tiering:** Sistem peringkat member (Silver, Gold, Platinum) dengan diskon otomatis menyesuaikan tingkat loyalitas pelanggan.
 38. **WhatsApp Gateway & CRM:** Integrasi pesan otomatis untuk kirim nota, OTP login, dan broadcast promo produk baru langsung ke WhatsApp pelanggan.
-39. **Email Broadcast System:** Pengiriman kampanye pemasaran berupa newsletter visual menarik dengan penjadwalan otomatis.
-40. **PWA (Installable Website):** Website restoran yang bisa diinstal ke layar utama HP pelanggan tanpa lewat App Store, menghemat memori HP pelanggan.
-41. **Advanced Role & Permission:** Keamanan tingkat tinggi dengan izin akses berbeda-beda untuk setiap jabatan staff restoran.
-42. **Multi-Restaurant HQ:** Kemampuan mengelola ribuan cabang hanya dengan satu identitas login, mendukung ekspansi bisnis skala besar.
-43. **Priority Support & Guide:** Sistem tiket bantuan teknis dan video panduan penggunaan langsung di dalam dashboard aplikasi.
-44. **Draggable & Personal Dashboard:** Personalisasi tampilan dashboard utama per user menggunakan antarmuka seret-dan-lepas (Drag & Drop) yang user-friendly.
+39. **Security Ambiguity:** Sistem pengamanan akun (Forgot Password) yang menyamarkan keberadaan email pengguna untuk mencegah *social engineering* dan *user enumeration*.
+40. **Hybrid Real-time Connection:** Fleksibilitas penuh dalam pemilihan engine WebSocket; mendukung **Laravel Reverb** (Internal Server) untuk VPS, dan **Pusher** (Cloud) untuk Shared Hosting (cPanel), yang semuanya dapat dikonfigurasi langsung dari Admin Dashboard tanpa menyentuh kode.
+41. **Dynamic SMTP & Mailer:** Pengaturan server email (Host, Port, User, Password) yang bisa diubah secara *on-the-fly* lewat panel admin.
+42. **PWA (Installable Website):** Website restoran yang bisa diinstal ke layar utama HP pelanggan tanpa lewat App Store, menghemat memori HP pelanggan.
+43. **Advanced Role & Permission:** Keamanan tingkat tinggi dengan izin akses berbeda-beda untuk setiap jabatan staff restoran.
+44. **Multi-Restaurant HQ:** Kemampuan mengelola ribuan cabang hanya dengan satu identitas login, mendukung ekspansi bisnis skala besar.
+45. **Priority Support & Guide:** Sistem tiket bantuan teknis dan video panduan penggunaan langsung di dalam dashboard aplikasi.
+46. **Draggable & Personal Dashboard:** Personalisasi tampilan dashboard utama per user menggunakan antarmuka seret-dan-lepas (Drag & Drop) yang user-friendly.
 
 ---
 

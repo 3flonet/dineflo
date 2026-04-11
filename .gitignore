@@ -22,3 +22,8 @@ yarn-error.log
 auth.json
 .env.testing
 /actions-runner
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/cache/*
+/storage/logs/*
+storage/installed.lock
