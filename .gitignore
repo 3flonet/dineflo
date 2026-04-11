@@ -23,7 +23,11 @@ auth.json
 .env.testing
 /actions-runner
 /storage/framework/sessions/*
+!/storage/framework/sessions/.gitkeep
 /storage/framework/views/*
+!/storage/framework/views/.gitkeep
 /storage/framework/cache/*
+!/storage/framework/cache/.gitkeep
 /storage/logs/*
+!/storage/logs/.gitkeep
 storage/installed.lock
