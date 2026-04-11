@@ -249,7 +249,7 @@ class User extends Authenticatable implements HasTenants, FilamentUser
         $tenants = $this->ownedRestaurants;
         
         if ($this->restaurant_id && !$tenants->contains('id', $this->restaurant_id)) {
-             $restaurant = Restaurant::find($this->restaurant_id);
+             $restaurant = Restaurant::withoutGlobalScopes()->find($this->restaurant_id);
              if ($restaurant) {
                  $tenants->push($restaurant);
              }
@@ -260,7 +260,7 @@ class User extends Authenticatable implements HasTenants, FilamentUser
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->ownedRestaurants->contains($tenant) || $this->restaurant_id === $tenant->id;
+        return $this->ownedRestaurants->contains('id', $tenant->id) || $this->restaurant_id == $tenant->id;
     }
 
     public function ordersProcessed()

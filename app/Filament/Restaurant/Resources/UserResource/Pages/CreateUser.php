@@ -35,8 +35,12 @@ class CreateUser extends CreateRecord
                 \Illuminate\Support\Facades\Log::info('CreateUser: Roles found.', ['count' => $roles->count(), 'roles' => $roles->pluck('name')]);
                 
                 if ($roles->isNotEmpty()) {
+                    // Set team ID explicitly for Spatie to sync roles with team_id
+                    $tenantId = \Filament\Facades\Filament::getTenant()->id;
+                    setPermissionsTeamId($tenantId);
+                    
                     $record->syncRoles($roles);
-                    \Illuminate\Support\Facades\Log::info('CreateUser: synced roles via Models.');
+                    \Illuminate\Support\Facades\Log::info('CreateUser: synced roles via Models for team ' . $tenantId);
                 }
             }
         } catch (\Exception $e) {
