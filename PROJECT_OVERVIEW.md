@@ -1,7 +1,7 @@
-# 🏛️ Dineflo v2 - Master Project Overview & 44 Core Features Guide
+# 🏛️ Dineflo v2 - Master Project Overview & 46 Core Features Guide
 
 ## 📋 Pendahuluan
-**Dineflo v2** adalah platform SaaS Manajemen Restoran & POS yang menggunakan arsitektur **Multi-Tenancy** native. Dokumen ini merincikan 44 fitur utama yang dirancang untuk mendigitalisasi seluruh aspek operasional restoran, mulai dari front-office hingga back-office.
+**Dineflo v2** adalah platform SaaS Manajemen Restoran & POS yang menggunakan arsitektur **Multi-Tenancy** native. Dokumen ini merincikan 46 fitur utama yang dirancang untuk mendigitalisasi seluruh aspek operasional restoran, mulai dari front-office hingga back-office.
 
 ---
 
@@ -59,17 +59,17 @@
 34. **Customer Analytics:** Membedah profil pelanggan, frekuensi kunjungan, dan *Lifetime Value* pelanggan untuk program CRM.
 35. **Food Cost & Recipe Insight:** Menghitung margin keuntungan setiap piring makanan berdasarkan harga bahan baku pasar yang fluktuatif.
 
-### 📱 F. Marketing & Infrastructure (9 Fitur)
+### 📱 F. Marketing & Infrastructure (11 Fitur)
 36. **Self-Service Kiosk:** Layar sentuh mandiri di lobi restoran untuk pelanggan memesan dan membayar langsung tanpa bantuan kasir.
 37. **Member Loyalty & Tiering:** Sistem peringkat member (Silver, Gold, Platinum) dengan diskon otomatis menyesuaikan tingkat loyalitas pelanggan.
 38. **WhatsApp Gateway & CRM:** Integrasi pesan otomatis untuk kirim nota, OTP login, dan broadcast promo produk baru langsung ke WhatsApp pelanggan.
 39. **Security Ambiguity:** Sistem pengamanan akun (Forgot Password) yang menyamarkan keberadaan email pengguna untuk mencegah *social engineering* dan *user enumeration*.
 40. **Hybrid Real-time Connection:** Fleksibilitas penuh dalam pemilihan engine WebSocket; mendukung **Laravel Reverb** (Internal Server) untuk VPS, dan **Pusher** (Cloud) untuk Shared Hosting (cPanel), yang semuanya dapat dikonfigurasi langsung dari Admin Dashboard tanpa menyentuh kode.
-41. **Dynamic SMTP & Mailer:** Pengaturan server email (Host, Port, User, Password) yang bisa diubah secara *on-the-fly* lewat panel admin.
-42. **PWA (Installable Website):** Website restoran yang bisa diinstal ke layar utama HP pelanggan tanpa lewat App Store, menghemat memori HP pelanggan.
-43. **Advanced Role & Permission:** Keamanan tingkat tinggi dengan izin akses berbeda-beda untuk setiap jabatan staff restoran.
-44. **Multi-Restaurant HQ:** Kemampuan mengelola ribuan cabang hanya dengan satu identitas login, mendukung ekspansi bisnis skala besar.
-45. **Priority Support & Guide:** Sistem tiket bantuan teknis dan video panduan penggunaan langsung di dalam dashboard aplikasi.
+41. **Dynamic Landing Page CMS:** Pengelolaan konten landing page (Hero, CTA, Mockup Slider) langsung dari panel admin secara dinamis untuk kustomisasi branding instan.
+42. **Dynamic SMTP & Mailer:** Pengaturan server email (Host, Port, User, Password) yang bisa diubah secara *on-the-fly* lewat panel admin.
+43. **PWA (Installable Website):** Website restoran yang bisa diinstal ke layar utama HP pelanggan tanpa lewat App Store, menghemat memori HP pelanggan.
+44. **Advanced Role & Permission:** Keamanan tingkat tinggi dengan izin akses berbeda-beda untuk setiap jabatan staff restoran.
+45. **Multi-Restaurant HQ:** Kemampuan mengelola ribuan cabang hanya dengan satu identitas login, mendukung ekspansi bisnis skala besar.
 46. **Draggable & Personal Dashboard:** Personalisasi tampilan dashboard utama per user menggunakan antarmuka seret-dan-lepas (Drag & Drop) yang user-friendly.
 
 ---
