@@ -32,6 +32,8 @@ class GeneralSettings extends Settings
     public ?string $landing_hero_cta_secondary_link;
     public ?string $landing_hero_mockup_image;
     public array $landing_hero_mockups = [];
+    public array $landing_partner_logos = [];
+    public array $landing_testimonials = [];
 
     // ── Social Media Links ───────────────────────────────────────────────────
     public ?string $site_facebook_url;

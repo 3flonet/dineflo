@@ -450,7 +450,80 @@
         </div>
     </div>
 
-    <!-- 6. Fitur Utama -->
+    <!-- 6. Social Proof: Partner Logos & Testimonials -->
+    <div class="py-24 bg-white dark:bg-[#0b0f19] transition-colors duration-300 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <!-- Logos -->
+            @if(count($settings->landing_partner_logos) > 0)
+                <div class="mb-24">
+                    <p class="text-center text-xs uppercase font-black tracking-widest text-gray-400 mb-10">Dipercaya Oleh Berbagai Bisnis Kuliner Unggulan</p>
+                    <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-700">
+                        @foreach($settings->landing_partner_logos as $partner)
+                            <div class="flex flex-col items-center group">
+                                @if($partner['image'])
+                                    <img src="{{ Storage::url($partner['image']) }}" alt="{{ $partner['name'] }}" class="h-8 md:h-12 w-auto object-contain transition group-hover:scale-110">
+                                @else
+                                    <span class="text-lg md:text-2xl font-black text-gray-400 dark:text-gray-600 tracking-tighter group-hover:text-primary-500 transition">{{ $partner['name'] }}</span>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+            <!-- Testimonials -->
+            <div class="text-center mb-16">
+                <h3 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Apa Kata <span class="text-gradient">Mereka?</span></h3>
+                <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">Kepuasan pelanggan adalah prioritas kami. Inilah pengalaman nyata para pebisnis kuliner menggunakan {{ $settings->site_name }}.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                @foreach($settings->landing_testimonials as $testimonial)
+                    <div class="glass-panel p-8 rounded-[2rem] relative border border-gray-100 dark:border-white/5 shadow-xl">
+                        <div class="flex gap-4 items-center mb-6">
+                            <div class="w-14 h-14 rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden shrink-0 border-2 border-primary-500/20">
+                                @if($testimonial['avatar'])
+                                    <img src="{{ Storage::url($testimonial['avatar']) }}" alt="{{ $testimonial['name'] }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-primary-500 font-bold text-xl uppercase">
+                                        {{ substr($testimonial['name'], 0, 1) }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white leading-tight">{{ $testimonial['name'] }}</h4>
+                                <p class="text-xs text-gray-500">{{ $testimonial['role'] }}</p>
+                                <div class="flex gap-0.5 mt-1">
+                                    @for($i = 0; $i < ($testimonial['rating'] ?? 5); $i++)
+                                        <svg class="w-3 h-3 text-amber-500 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    @endfor
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300 italic leading-relaxed">"{{ $testimonial['quote'] }}"</p>
+                        
+                        {{-- Quote Icon Decor --}}
+                        <div class="absolute top-8 right-8 text-primary-500/10">
+                            <svg class="w-12 h-12 fill-current" viewBox="0 0 32 32"><path d="M10 8v8H6v1h4v4H6a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4h4zm16 0v8h-4v1h4v4h-4a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4h4z"/></svg>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- CTA to /restaurants -->
+            <div class="text-center">
+                <a href="/restaurants" class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold hover:scale-105 active:scale-95 transition group">
+                    <span>Lihat Daftar Restoran Berlangganan</span>
+                    <svg class="w-5 h-5 group-hover:translate-x-1 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Fitur Utama -->
     <div id="fitur" class="py-24 relative overflow-hidden transition-colors duration-300">
         <div class="absolute top-1/2 left-0 w-full h-[600px] bg-primary-500/5 dark:bg-blue-600/10 blur-[150px] -skew-y-12"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

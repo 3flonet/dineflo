@@ -715,6 +715,58 @@ class ManageSettings extends SettingsPage
                                             ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
                                             ->grid(2)
                                             ->columnSpanFull(),
+
+                                        Forms\Components\Section::make('Social Proof')
+                                            ->description('Kelola logo partner dan testimoni pelanggan.')
+                                            ->schema([
+                                                Forms\Components\Repeater::make('landing_partner_logos')
+                                                    ->label('Partner / Client Logos')
+                                                    ->schema([
+                                                        Forms\Components\FileUpload::make('image')
+                                                            ->image()
+                                                            ->directory('settings')
+                                                            ->label('Logo Image')
+                                                            ->required(),
+                                                        Forms\Components\TextInput::make('name')
+                                                            ->label('Restaurant Name')
+                                                            ->required(),
+                                                    ])
+                                                    ->grid(4)
+                                                    ->collapsible()
+                                                    ->reorderable(),
+
+                                                Forms\Components\Repeater::make('landing_testimonials')
+                                                    ->label('Testimonials')
+                                                    ->schema([
+                                                        Forms\Components\FileUpload::make('avatar')
+                                                            ->image()
+                                                            ->avatar()
+                                                            ->directory('settings')
+                                                            ->label('Photo'),
+                                                        Forms\Components\TextInput::make('name')
+                                                            ->label('Customer Name')
+                                                            ->required(),
+                                                        Forms\Components\TextInput::make('role')
+                                                            ->label('Role (e.g. Owner of Resto X)')
+                                                            ->required(),
+                                                        Forms\Components\Textarea::make('quote')
+                                                            ->label('Testimonial Quote')
+                                                            ->rows(3)
+                                                            ->required(),
+                                                        Forms\Components\Select::make('rating')
+                                                            ->options([
+                                                                5 => '5 Stars',
+                                                                4 => '4 Stars',
+                                                                3 => '3 Stars',
+                                                            ])
+                                                            ->default(5)
+                                                            ->required(),
+                                                    ])
+                                                    ->grid(2)
+                                                    ->collapsible()
+                                                    ->reorderable(),
+                                            ])
+                                            ->columnSpanFull(),
                                     ]),
                             ]),
 
