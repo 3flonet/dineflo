@@ -237,71 +237,220 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Point 1 -->
-                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition duration-300">
-                    <div class="mb-6 flex justify-between items-start">
-                        <div>
-                            <span class="text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-400/10 px-3 py-1 rounded-full border border-red-200 dark:border-red-500/20">Cara Lama</span>
-                            <h4 class="text-xl font-bold text-gray-800 dark:text-gray-300 mt-4 mb-2">Pelanggan Menunggu Lama</h4>
-                            <p class="text-sm text-gray-500">Pelanggan harus melambaikan tangan, menunggu menu fisik, antre di kasir, membuang waktu 10-15 menit.</p>
-                        </div>
+                <!-- Point 1: Wait Time -->
+                <div class="glass-panel p-8 rounded-3xl hover:-translate-y-2 transition duration-500 border border-white/20 dark:border-white/5 shadow-xl hover:shadow-primary-500/10">
+                    <div class="mb-5">
+                        <span class="text-[10px] uppercase font-black tracking-widest text-red-600 dark:text-red-400 bg-red-100/50 dark:bg-red-400/10 px-3 py-1.5 rounded-lg border border-red-200/50">Cara Lama</span>
+                        <h4 class="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4 mb-2">Antrean & Tunggu Lama</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Pelanggan lelah melambaikan tangan, menunggu menu fisik, antre di kasir, membuang waktu 15 menit cuma untuk pesan.</p>
                     </div>
-                    <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent my-6"></div>
+                    <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent my-6"></div>
                     <div>
-                        <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-400/10 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-500/20">Solusi {{ $settings->site_name }}</span>
-                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mt-4 mb-2 flex items-center gap-2">
-                            <svg class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg> 
-                            QR Order Mandiri
-                        </h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Scan QR di meja, pesan, dan langsung bayar via HP pelanggan (QRIS). Pesanan otomatis sampai ke dapur. Detik bukan menit.</p>
+                        <span class="text-[10px] uppercase font-black tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-100/50 dark:bg-emerald-400/10 px-3 py-1.5 rounded-lg border border-emerald-200/50">Solusi {{ $settings->site_name }}</span>
+                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mt-4 mb-2">QR Order & Pay</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Scan, Pesan, Bayar langsung dari meja. Pesanan masuk dapur dalam hitungan detik. Tanpa tunggu, tanpa ribet.</p>
                     </div>
                 </div>
 
-                <!-- Point 2 -->
-                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition duration-300 relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent"></div>
-                    <div class="relative z-10 mb-6 flex justify-between items-start">
-                        <div>
-                            <span class="text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-400/10 px-3 py-1 rounded-full border border-red-200 dark:border-red-500/20">Cara Lama</span>
-                            <h4 class="text-xl font-bold text-gray-800 dark:text-gray-300 mt-4 mb-2">Kertas Order Hilang & Sulit Terbaca</h4>
-                            <p class="text-sm text-gray-500">Tulisan pelayan tak terbaca, kertas pesanan hilang di dapur, pesanan salah buat, profit terbuang sia-sia.</p>
-                        </div>
+                <!-- Point 2: Kitchen -->
+                <div class="glass-panel p-8 rounded-3xl hover:-translate-y-2 transition duration-500 border border-white/20 dark:border-white/5 shadow-xl hover:shadow-indigo-500/10">
+                    <div class="mb-5">
+                        <span class="text-[10px] uppercase font-black tracking-widest text-red-600 dark:text-red-400 bg-red-100/50 dark:bg-red-400/10 px-3 py-1.5 rounded-lg border border-red-200/50">Cara Lama</span>
+                        <h4 class="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4 mb-2">Order Hilang & Salah</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Tulisan tak terbaca, kertas hilang di dapur, pesanan salah buat. Profit terbuang sia-sia karena bahan baku mubazir.</p>
                     </div>
-                    <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent my-6"></div>
-                    <div class="relative z-10">
-                        <span class="text-xs font-bold text-primary-600 dark:text-indigo-400 bg-primary-50 dark:bg-indigo-400/10 px-3 py-1 rounded-full border border-primary-200 dark:border-indigo-500/20">Solusi {{ $settings->site_name }}</span>
-                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mt-4 mb-2 flex items-center gap-2">
-                            <svg class="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            Kitchen Display System
-                        </h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Papan digital di dapur. Koki melihat antrean pesanan real-time. Ada marker untuk pesanan menunggu lama & keterangan alergi pelanggan (Addons).</p>
+                    <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent my-6"></div>
+                    <div>
+                        <span class="text-[10px] uppercase font-black tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-100/50 dark:bg-indigo-400/10 px-3 py-1.5 rounded-lg border border-indigo-200/50">Solusi {{ $settings->site_name }}</span>
+                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mt-4 mb-2">Kitchen Display</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Layar digital cerdas di dapur. Pantau durasi masak (KPI), modifikasi menu, dan status pesanan secara real-time.</p>
                     </div>
                 </div>
 
-                <!-- Point 3 -->
-                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition duration-300">
-                    <div class="mb-6 flex justify-between items-start">
-                        <div>
-                            <span class="text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-400/10 px-3 py-1 rounded-full border border-red-200 dark:border-red-500/20">Cara Lama</span>
-                            <h4 class="text-xl font-bold text-gray-800 dark:text-gray-300 mt-4 mb-2">Kebocoran Keuangan</h4>
-                            <p class="text-sm text-gray-500">Sulit melacak potongan fee QRIS, uang laci hilang, menghitung profit bersih tiap hari memakan waktu berjam-jam.</p>
-                        </div>
+                <!-- Point 3: Finance -->
+                <div class="glass-panel p-8 rounded-3xl hover:-translate-y-2 transition duration-500 border border-white/20 dark:border-white/5 shadow-xl hover:shadow-amber-500/10">
+                    <div class="mb-5">
+                        <span class="text-[10px] uppercase font-black tracking-widest text-red-600 dark:text-red-400 bg-red-100/50 dark:bg-red-400/10 px-3 py-1.5 rounded-lg border border-red-200/50">Cara Lama</span>
+                        <h4 class="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4 mb-2">Kebocoran Finance</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Uang laci hilang, fee QRIS tak terlacak, rekap data berjam-jam setiap malam secara manual. Lelah & tidak akurat.</p>
                     </div>
-                    <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent my-6"></div>
+                    <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent my-6"></div>
                     <div>
-                        <span class="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-400/10 px-3 py-1 rounded-full border border-amber-200 dark:border-amber-500/20">Solusi {{ $settings->site_name }}</span>
-                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mt-4 mb-2 flex items-center gap-2">
-                            <svg class="h-5 w-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            Transparent Ledger & Dashboard
-                        </h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Ledger otomatis menghitung Net & Fee Midtrans terpisah. Fitur "Cash Drawer Log" mencatat siapa yang buka laci kasir tunai. Rekonsiliasi otomatis.</p>
+                        <span class="text-[10px] uppercase font-black tracking-widest text-amber-600 dark:text-amber-400 bg-amber-100/50 dark:bg-amber-400/10 px-3 py-1.5 rounded-lg border border-amber-200/50">Solusi {{ $settings->site_name }}</span>
+                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mt-4 mb-2">Auto-Ledger & POS</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Ledger otomatis memisahkan Net & Fee secara instan. Lacak mutasi kasir dan rekap harian dalam sekali klik.</p>
+                    </div>
+                </div>
+
+                <!-- Point 4: Inventory -->
+                <div class="glass-panel p-8 rounded-3xl hover:-translate-y-2 transition duration-500 border border-white/20 dark:border-white/5 shadow-xl hover:shadow-purple-500/10">
+                    <div class="mb-5">
+                        <span class="text-[10px] uppercase font-black tracking-widest text-red-600 dark:text-red-400 bg-red-100/50 dark:bg-red-400/10 px-3 py-1.5 rounded-lg border border-red-200/50">Cara Lama</span>
+                        <h4 class="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4 mb-2">Stok Bocor & Raib</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Bahan baku habis tiba-tiba saat ramai, opname manual yang rawan manipulasi, dan pemborosan tanpa jejak.</p>
+                    </div>
+                    <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent my-6"></div>
+                    <div>
+                        <span class="text-[10px] uppercase font-black tracking-widest text-purple-600 dark:text-purple-400 bg-purple-100/50 dark:bg-purple-400/10 px-3 py-1.5 rounded-lg border border-purple-200/50">Solusi {{ $settings->site_name }}</span>
+                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mt-4 mb-2">Smart Stock Guard</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Setiap menu terjual otomatis memotong stok hingga gramasi terkecil. Berhenti rugi karena manajemen stok buruk.</p>
+                    </div>
+                </div>
+
+                <!-- Point 5: Marketing & Loyalty -->
+                <div class="glass-panel p-8 rounded-3xl hover:-translate-y-2 transition duration-500 border border-white/20 dark:border-white/5 shadow-xl hover:shadow-pink-500/10">
+                    <div class="mb-5">
+                        <span class="text-[10px] uppercase font-black tracking-widest text-red-600 dark:text-red-400 bg-red-100/50 dark:bg-red-400/10 px-3 py-1.5 rounded-lg border border-red-200/50">Cara Lama</span>
+                        <h4 class="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4 mb-2">Customer Datang & Pergi</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Tidak tahu siapa pelanggan setia, tidak punya database nomor WhatsApp, promosi hanya lewat brosur fisik yang dibuang.</p>
+                    </div>
+                    <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent my-6"></div>
+                    <div>
+                        <span class="text-[10px] uppercase font-black tracking-widest text-pink-600 dark:text-pink-400 bg-pink-100/50 dark:bg-pink-400/10 px-3 py-1.5 rounded-lg border border-pink-200/50">Solusi {{ $settings->site_name }}</span>
+                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mt-4 mb-2">WhatsApp CRM & Loyalty</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Kumpulkan database pelanggan & poin reward otomatis. Kirim promo personal langsung ke WhatsApp untuk datangkan kembali pembeli.</p>
+                    </div>
+                </div>
+
+                <!-- Point 6: Multi-Outlet HQ -->
+                <div class="glass-panel p-8 rounded-3xl hover:-translate-y-2 transition duration-500 border border-white/20 dark:border-white/5 shadow-xl hover:shadow-emerald-500/10">
+                    <div class="mb-5">
+                        <span class="text-[10px] uppercase font-black tracking-widest text-red-600 dark:text-red-400 bg-red-100/50 dark:bg-red-400/10 px-3 py-1.5 rounded-lg border border-red-200/50">Cara Lama</span>
+                        <h4 class="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4 mb-2">Sulit Pantau Cabang</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Harus datang ke resto untuk cek laporan, owner pusing kalau punya banyak cabang karena data terpisah-pisah dan tidak transparan.</p>
+                    </div>
+                    <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent my-6"></div>
+                    <div>
+                        <span class="text-[10px] uppercase font-black tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-100/50 dark:bg-emerald-400/10 px-3 py-1.5 rounded-lg border border-emerald-200/50">Solusi {{ $settings->site_name }}</span>
+                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mt-4 mb-2">Multi-Outlet Dashboard</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Pantau omzet semua cabang dari HP secara real-time. Ambil keputusan bisnis berdasarkan data akurat, bukan lagi berdasarkan perasaan.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 4. Fitur Utama -->
+    <!-- 4. Key Metrics / Trust Stats -->
+    <div class="py-20 bg-white dark:bg-[#0a0e17] transition-colors duration-300 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Terbukti Meningkatkan <span class="text-gradient">Performa Bisnis</span></h3>
+                <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">{{ $settings->site_name }} bukan sekadar alat, tapi partner strategis untuk pertumbuhan restoran Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Stat 1 -->
+                <div class="text-center p-6 rounded-2xl bg-gray-50/50 dark:bg-white/5 border border-gray-100 dark:border-white/5 transition duration-500 hover:border-primary-500/30">
+                    <div class="text-4xl md:text-5xl font-black text-gradient mb-2 tracking-tight">+40%</div>
+                    <div class="text-sm font-bold text-gray-800 dark:text-gray-200 mb-1">Efisiensi Pelayanan</div>
+                    <p class="text-[10px] text-gray-500 leading-relaxed uppercase tracking-widest font-medium">Berdasarkan Kecepatan QR Order</p>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="text-center p-6 rounded-2xl bg-gray-50/50 dark:bg-white/5 border border-gray-100 dark:border-white/5 transition duration-500 hover:border-primary-500/30">
+                    <div class="text-4xl md:text-5xl font-black text-gradient-gold mb-2 tracking-tight">0%</div>
+                    <div class="text-sm font-bold text-gray-800 dark:text-gray-200 mb-1">Order Error</div>
+                    <p class="text-[10px] text-gray-500 leading-relaxed uppercase tracking-widest font-medium">Sinkronisasi Digital ke Dapur</p>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="text-center p-6 rounded-2xl bg-gray-50/50 dark:bg-white/5 border border-gray-100 dark:border-white/5 transition duration-500 hover:border-primary-500/30">
+                    <div class="text-4xl md:text-5xl font-black text-gradient mb-2 tracking-tight">100%</div>
+                    <div class="text-sm font-bold text-gray-800 dark:text-gray-200 mb-1">Transparansi Keuangan</div>
+                    <p class="text-[10px] text-gray-500 leading-relaxed uppercase tracking-widest font-medium">Laporan Ledger Real-time</p>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="text-center p-6 rounded-2xl bg-gray-50/50 dark:bg-white/5 border border-gray-100 dark:border-white/5 transition duration-500 hover:border-primary-500/30">
+                    <div class="text-4xl md:text-5xl font-black text-gradient-gold mb-2 tracking-tight">+25%</div>
+                    <div class="text-sm font-bold text-gray-800 dark:text-gray-200 mb-1">Kenaikan Omzet</div>
+                    <p class="text-[10px] text-gray-500 leading-relaxed uppercase tracking-widest font-medium">Via Smart Upsell & Loyalty</p>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center">
+                <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Dipercaya oleh lebih dari <span class="font-bold text-gray-900 dark:text-white">500+ Restoran</span> di seluruh Indonesia
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 5. ROI Calculator -->
+    <div class="py-24 bg-gray-50 dark:bg-[#0a0e17] transition-colors duration-300 relative overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white dark:border-white/5"
+                 x-data="{ 
+                    dailyOrders: 50, 
+                    avgTicket: 50000,
+                    get monthlyEfficiency() { return Math.round(this.dailyOrders * 30 * this.avgTicket * 0.15) },
+                    get hoursSaved() { return Math.round((this.dailyOrders * 30 * 10) / 60) },
+                    formatCurrency(val) {
+                        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(val);
+                    }
+                 }">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Hitung Potensi <span class="text-gradient">Keuntungan Anda</span></h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">Geser slider di samping untuk melihat seberapa besar {{ $settings->site_name }} membantu pertumbuhan bisnis Anda setiap bulannya.</p>
+                        
+                        <div class="space-y-8">
+                            <!-- Input 1 -->
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <label class="text-sm font-bold text-gray-700 dark:text-gray-300">Jumlah Pesanan / Hari</label>
+                                    <span class="px-3 py-1 bg-primary-500/10 text-primary-600 rounded-lg font-black text-lg" x-text="dailyOrders"></span>
+                                </div>
+                                <input type="range" min="10" max="500" step="5" x-model="dailyOrders" 
+                                       class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600">
+                            </div>
+
+                            <!-- Input 2 -->
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <label class="text-sm font-bold text-gray-700 dark:text-gray-300">Rata-rata Harga / Pesanan</label>
+                                    <span class="px-3 py-1 bg-primary-500/10 text-primary-600 rounded-lg font-black text-lg" x-text="formatCurrency(avgTicket)"></span>
+                                </div>
+                                <input type="range" min="10000" max="500000" step="5000" x-model="avgTicket" 
+                                       class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-primary-600 dark:bg-indigo-600 rounded-[2rem] p-8 text-white relative overflow-hidden shadow-2xl shadow-primary-500/20">
+                        <div class="absolute top-0 right-0 -translate-y-12 translate-x-12 w-48 h-48 bg-white/10 blur-[60px] rounded-full"></div>
+                        
+                        <div class="relative z-10 space-y-8">
+                            <div>
+                                <p class="text-primary-100 text-xs uppercase tracking-widest font-black mb-2">Estimasi Tambahan Profit / Bulan</p>
+                                <div class="text-3xl md:text-4xl font-black mb-1" x-text="formatCurrency(monthlyEfficiency)"></div>
+                                <p class="text-primary-200 text-[10px] leading-relaxed italic">*Hasil dari peningkatan efisiensi & upselling otomatis.</p>
+                            </div>
+
+                            <div class="w-full h-px bg-white/20"></div>
+
+                            <div>
+                                <p class="text-primary-100 text-xs uppercase tracking-widest font-black mb-2">Waktu Yang Dihemat / Bulan</p>
+                                <div class="text-3xl md:text-4xl font-black mb-1"><span x-text="hoursSaved"></span> Jam</div>
+                                <p class="text-primary-200 text-[10px] leading-relaxed italic">*Asumsi hemat 10 menit per pesanan lewat QR Order & KDS.</p>
+                            </div>
+
+                            <div class="pt-4">
+                                <a href="#harga" class="block w-full text-center bg-white text-primary-600 hover:bg-primary-50 text-sm font-black py-4 rounded-2xl shadow-xl transition transform hover:scale-105 active:scale-95">
+                                    🚀 Ambil Keuntungan Ini Sekarang
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Fitur Utama -->
     <div id="fitur" class="py-24 relative overflow-hidden transition-colors duration-300">
         <div class="absolute top-1/2 left-0 w-full h-[600px] bg-primary-500/5 dark:bg-blue-600/10 blur-[150px] -skew-y-12"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
