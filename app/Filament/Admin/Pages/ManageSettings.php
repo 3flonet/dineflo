@@ -666,6 +666,58 @@ class ManageSettings extends SettingsPage
                                     ->visible(fn (Forms\Get $get) => (bool) $get('platform_wa_is_active')),
                             ]),
 
+                        Forms\Components\Tabs\Tab::make('Landing Page')
+                            ->icon('heroicon-m-window')
+                            ->schema([
+                                Forms\Components\Section::make('Hero Section')
+                                    ->description('Konfigurasi bagian atas landing page Anda.')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('landing_hero_title')
+                                            ->label('Hero Title')
+                                            ->helperText('Gunakan HTML jika ingin menambahkan gradasi atau warna khusus.')
+                                            ->columnSpanFull(),
+                                        Forms\Components\Textarea::make('landing_hero_subtitle')
+                                            ->label('Hero Subtitle')
+                                            ->rows(3)
+                                            ->columnSpanFull(),
+                                        
+                                        Forms\Components\Grid::make(2)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('landing_hero_cta_primary_text')
+                                                    ->label('Primary CTA Text'),
+                                                Forms\Components\TextInput::make('landing_hero_cta_primary_link')
+                                                    ->label('Primary CTA URL'),
+                                                Forms\Components\TextInput::make('landing_hero_cta_secondary_text')
+                                                    ->label('Secondary CTA Text'),
+                                                Forms\Components\TextInput::make('landing_hero_cta_secondary_link')
+                                                    ->label('Secondary CTA URL'),
+                                            ]),
+
+                                        Forms\Components\Repeater::make('landing_hero_mockups')
+                                            ->label('Dashboard Mockup Carousel')
+                                            ->helperText('Tambahkan beberapa gambar untuk dijadikan slider di halaman depan.')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('title')
+                                                    ->label('Slide Title / Label')
+                                                    ->placeholder('e.g. FILAMENT V3')
+                                                    ->required(),
+                                                Forms\Components\FileUpload::make('image')
+                                                    ->label('Mockup Image')
+                                                    ->image()
+                                                    ->imageEditor()
+                                                    ->maxSize(2048)
+                                                    ->disk('public')
+                                                    ->directory('settings')
+                                                    ->visibility('public'),
+                                            ])
+                                            ->collapsible()
+                                            ->collapsed(false)
+                                            ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                                            ->grid(2)
+                                            ->columnSpanFull(),
+                                    ]),
+                            ]),
+
                         Forms\Components\Tabs\Tab::make('Subscription')
                             ->icon('heroicon-m-calendar-days')
                             ->schema([

@@ -23,6 +23,16 @@ class GeneralSettings extends Settings
     public ?string $site_currency;
     public ?string $site_timezone;
 
+    // ── Landing Page Settings ────────────────────────────────────────────────
+    public ?string $landing_hero_title;
+    public ?string $landing_hero_subtitle;
+    public ?string $landing_hero_cta_primary_text;
+    public ?string $landing_hero_cta_primary_link;
+    public ?string $landing_hero_cta_secondary_text;
+    public ?string $landing_hero_cta_secondary_link;
+    public ?string $landing_hero_mockup_image;
+    public array $landing_hero_mockups = [];
+
     // ── Social Media Links ───────────────────────────────────────────────────
     public ?string $site_facebook_url;
     public ?string $site_instagram_url;

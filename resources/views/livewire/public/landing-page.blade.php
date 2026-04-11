@@ -37,6 +37,7 @@
         .dark .text-gradient-gold {
             background-image: linear-gradient(90deg, #F59E0B, #F15A25);
         }
+        [x-cloak] { display: none !important; }
     </style>
 
     <!-- 1. Navbar -->
@@ -114,7 +115,18 @@
     </nav>
 
     <!-- 2. Hero Section -->
-    <main id="main-content" class="relative pt-28 sm:pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden flex flex-col items-center md:justify-center md:min-h-[90vh]">
+    <main id="main-content" 
+          class="relative pt-28 sm:pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden flex flex-col items-center md:justify-center md:min-h-[90vh]"
+          x-data="{ 
+            activeSlide: 0, 
+            slides: {{ json_encode($settings->landing_hero_mockups) }},
+            loop() {
+                setInterval(() => {
+                    this.activeSlide = (this.activeSlide + 1) % this.slides.length;
+                }, 5000);
+            }
+          }" 
+          x-init="loop()">
         <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] sm:w-[800px] h-[400px] sm:h-[500px] bg-primary-500/10 dark:bg-indigo-600/20 blur-[100px] sm:blur-[120px] rounded-full pointer-events-none"></div>
         <div class="absolute top-1/3 right-0 w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] bg-purple-500/10 dark:bg-purple-600/20 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none"></div>
         
@@ -128,24 +140,23 @@
             </div>
             
             <h1 class="text-[28px] sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4 sm:mb-8 leading-[1.3] sm:leading-tight max-w-5xl mx-auto px-2 sm:px-1">
-                Kelola Restoran <span class="text-gradient">Lebih Cerdas</span>,<br class="hidden sm:block"/> 
-                Raih Profit <span class="text-gradient-gold">Lebih Maksimal.</span>
+                {!! $settings->landing_hero_title !!}
             </h1>
             
             <p class="text-sm sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed font-medium px-2 sm:px-0">
-                Tinggalkan cara manual yang lambat. {{ $settings->site_name }} menyatukan Pemesanan QR, POS, Kitchen Display, Laporan Keuangan, & Loyalitas Pelanggan dalam satu platform premium.
+                {{ $settings->landing_hero_subtitle }}
             </p>
             
             <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-xs sm:max-w-none mx-auto px-2 sm:px-0">
-                <a href="#harga" class="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-primary-600 hover:bg-primary-500 text-white font-bold text-sm sm:text-lg transition shadow-xl shadow-primary-500/30 transform hover:-translate-y-1 text-center flex items-center justify-center gap-2">
-                    <span>🚀</span> Mulai Gratis Sekarang
+                <a href="{{ $settings->landing_hero_cta_primary_link }}" class="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-primary-600 hover:bg-primary-500 text-white font-bold text-sm sm:text-lg transition shadow-xl shadow-primary-500/30 transform hover:-translate-y-1 text-center flex items-center justify-center gap-2">
+                    {{ $settings->landing_hero_cta_primary_text }}
                 </a>
-                <a href="#fitur" class="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white font-bold text-sm sm:text-lg transition shadow-lg transform hover:-translate-y-1 text-center">
-                    Lihat Fitur
+                <a href="{{ $settings->landing_hero_cta_secondary_link }}" class="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white font-bold text-sm sm:text-lg transition shadow-lg transform hover:-translate-y-1 text-center">
+                    {{ $settings->landing_hero_cta_secondary_text }}
                 </a>
             </div>
 
-            <div class="mt-10 sm:mt-20 glass-panel p-1.5 sm:p-2 rounded-2xl mx-auto w-full max-w-5xl shadow-2xl ring-1 ring-white/10" x-data="{ activeImg: 1 }" x-init="setInterval(() => { activeImg === 1 ? activeImg = 2 : activeImg = 1 }, 4000)">
+            <div class="mt-10 sm:mt-20 glass-panel p-1.5 sm:p-2 rounded-2xl mx-auto w-full max-w-5xl shadow-2xl ring-1 ring-white/10">
                 <div class="relative aspect-[4/3] sm:aspect-[16/9] w-full rounded-xl overflow-hidden bg-gray-900 border border-white/5 shadow-inner flex flex-col">
                     <div class="w-full h-8 sm:h-12 border-b border-gray-800 flex items-center px-3 sm:px-4 gap-1.5 sm:gap-2 bg-[#1F2937] shrink-0 z-20">
                         <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500/80"></div>
@@ -154,35 +165,64 @@
                     </div>
                     
                     <div class="relative flex-1 w-full h-full text-gray-600 font-mono text-sm bg-[#111827]">
-                        <div class="absolute inset-0 w-full h-full flex transition-opacity duration-1000" x-show="activeImg === 1">
-                            <div class="w-48 lg:w-64 border-r border-gray-800 bg-[#1A2235] p-6 hidden md:block shrink-0">
-                                <div class="w-full h-8 bg-gray-800 rounded mb-6"></div>
-                                <div class="space-y-4"><div class="w-3/4 h-4 bg-indigo-500/20 rounded"></div><div class="w-1/2 h-4 bg-gray-800 rounded"></div><div class="w-2/3 h-4 bg-gray-800 rounded"></div></div>
+                        @foreach($settings->landing_hero_mockups as $index => $mockup)
+                            <div class="absolute inset-0 w-full h-full flex" 
+                                 x-show="activeSlide === {{ $index }}"
+                                 x-transition:enter="transition ease-out duration-500"
+                                 x-transition:enter-start="opacity-0 transform scale-95"
+                                 x-transition:enter-end="opacity-100 transform scale-100"
+                                 x-transition:leave="transition ease-in duration-300"
+                                 x-transition:leave-start="opacity-100"
+                                 x-transition:leave-end="opacity-0"
+                                 x-cloak>
+                                
+                                @if(!empty($mockup['image']))
+                                    <img src="{{ Storage::url($mockup['image']) }}" class="w-full h-full object-cover object-top" alt="{{ $mockup['title'] }}">
+                                @else
+                                    {{-- Fallback Simulation for Empty Image --}}
+                                    @if($index % 2 === 0)
+                                        <div class="w-48 lg:w-64 border-r border-gray-800 bg-[#1A2235] p-6 hidden md:block shrink-0">
+                                            <div class="w-full h-8 bg-gray-800 rounded mb-6"></div>
+                                            <div class="space-y-4"><div class="w-3/4 h-4 bg-indigo-500/20 rounded"></div><div class="w-1/2 h-4 bg-gray-800 rounded"></div><div class="w-2/3 h-4 bg-gray-800 rounded"></div></div>
+                                        </div>
+                                        <div class="flex-1 p-3 sm:p-8 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 overflow-hidden">
+                                            <div class="col-span-1 sm:col-span-3 h-16 sm:h-32 bg-gradient-to-r from-indigo-900/40 to-purple-900/40 rounded-xl sm:rounded-2xl border border-indigo-500/20"></div>
+                                            <div class="col-span-1 sm:col-span-2 h-24 sm:h-64 bg-gray-800/50 rounded-xl sm:rounded-2xl"></div>
+                                            <div class="col-span-1 h-24 sm:h-64 bg-gray-800/50 rounded-xl sm:rounded-2xl hidden sm:block"></div>
+                                        </div>
+                                    @else
+                                        <div class="flex-1 p-3 sm:p-8 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 bg-[#0F172A] overflow-hidden w-full">
+                                            <div class="col-span-2 sm:col-span-4 h-12 sm:h-16 bg-gray-800/30 rounded-lg sm:rounded-xl mb-2 sm:mb-4"></div>
+                                            <div class="h-20 sm:h-40 bg-gray-800/50 rounded-lg sm:rounded-xl"></div>
+                                            <div class="h-20 sm:h-40 bg-gray-800/50 rounded-lg sm:rounded-xl"></div>
+                                            <div class="h-20 sm:h-40 bg-gray-800/50 rounded-lg sm:rounded-xl hidden sm:block"></div>
+                                            <div class="h-20 sm:h-40 bg-gray-800/50 rounded-lg sm:rounded-xl hidden sm:block"></div>
+                                        </div>
+                                    @endif
+                                @endif
                             </div>
-                            <div class="flex-1 p-3 sm:p-8 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 overflow-hidden">
-                                <div class="col-span-1 sm:col-span-3 h-16 sm:h-32 bg-gradient-to-r from-indigo-900/40 to-purple-900/40 rounded-xl sm:rounded-2xl border border-indigo-500/20"></div>
-                                <div class="col-span-1 sm:col-span-2 h-24 sm:h-64 bg-gray-800/50 rounded-xl sm:rounded-2xl"></div>
-                                <div class="col-span-1 h-24 sm:h-64 bg-gray-800/50 rounded-xl sm:rounded-2xl hidden sm:block"></div>
-                            </div>
-                        </div>
-                        <div class="absolute inset-0 w-full h-full flex transition-opacity duration-1000" x-show="activeImg === 2" style="display:none;">
-                            <div class="flex-1 p-3 sm:p-8 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 bg-[#0F172A] overflow-hidden">
-                                <div class="col-span-2 sm:col-span-4 h-12 sm:h-16 bg-gray-800/30 rounded-lg sm:rounded-xl mb-2 sm:mb-4"></div>
-                                <div class="h-20 sm:h-40 bg-gray-800/50 rounded-lg sm:rounded-xl"></div>
-                                <div class="h-20 sm:h-40 bg-gray-800/50 rounded-lg sm:rounded-xl"></div>
-                                <div class="h-20 sm:h-40 bg-gray-800/50 rounded-lg sm:rounded-xl hidden sm:block"></div>
-                                <div class="h-20 sm:h-40 bg-gray-800/50 rounded-lg sm:rounded-xl hidden sm:block"></div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
             
-            <div class="mt-8 sm:mt-12 flex justify-start sm:justify-center items-center gap-6 sm:gap-12 opacity-60 grayscale hover:grayscale-0 transition duration-500 overflow-x-auto pb-4 pt-2 no-scrollbar w-full px-2">
-                <div class="text-center font-bold tracking-widest text-gray-400 dark:text-white/80 whitespace-nowrap text-[10px] sm:text-sm shrink-0">FILAMENT V3</div>
-                <div class="text-center font-bold tracking-widest text-gray-400 dark:text-white/80 whitespace-nowrap text-[10px] sm:text-sm shrink-0">LIVEWIRE 3</div>
-                <div class="text-center font-bold tracking-widest text-gray-400 dark:text-white/80 whitespace-nowrap text-[10px] sm:text-sm shrink-0">MIDTRANS</div>
-                <div class="text-center font-bold tracking-widest text-gray-400 dark:text-white/80 whitespace-nowrap text-[10px] sm:text-sm shrink-0">LARAVEL REVERB</div>
+            <div class="mt-8 sm:mt-12 flex justify-start sm:justify-center items-center gap-6 sm:gap-12 transition duration-500 overflow-x-auto pb-6 pt-2 no-scrollbar w-full px-2">
+                @foreach($settings->landing_hero_mockups as $index => $mockup)
+                    <button 
+                        @click="activeSlide = {{ $index }}"
+                        class="relative py-2 px-1 text-center font-bold tracking-widest whitespace-nowrap text-[10px] sm:text-sm shrink-0 transition-all duration-300 group outline-none"
+                        :class="activeSlide === {{ $index }} ? 'text-primary-600 dark:text-indigo-400 opacity-100 scale-110' : 'text-gray-400 dark:text-white/40 opacity-40 grayscale hover:opacity-100 hover:grayscale-0'">
+                        
+                        <span class="relative z-10">{{ $mockup['title'] }}</span>
+                        
+                        {{-- Active Indicator Glow Line --}}
+                        <div x-show="activeSlide === {{ $index }}" 
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="scale-x-0 opacity-0"
+                             x-transition:enter-end="scale-x-100 opacity-100"
+                             class="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-primary-600 to-indigo-600 dark:from-indigo-500 dark:to-purple-500 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.6)]"></div>
+                    </button>
+                @endforeach
             </div>
         </div>
     </main>
