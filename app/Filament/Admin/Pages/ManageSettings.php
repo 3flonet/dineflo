@@ -725,11 +725,9 @@ class ManageSettings extends SettingsPage
                                                         Forms\Components\FileUpload::make('image')
                                                             ->image()
                                                             ->directory('settings')
-                                                            ->label('Logo Image')
-                                                            ->required(),
+                                                            ->label('Logo Image'),
                                                         Forms\Components\TextInput::make('name')
-                                                            ->label('Restaurant Name')
-                                                            ->required(),
+                                                            ->label('Restaurant Name'),
                                                     ])
                                                     ->grid(4)
                                                     ->collapsible()
@@ -744,23 +742,19 @@ class ManageSettings extends SettingsPage
                                                             ->directory('settings')
                                                             ->label('Photo'),
                                                         Forms\Components\TextInput::make('name')
-                                                            ->label('Customer Name')
-                                                            ->required(),
+                                                            ->label('Customer Name'),
                                                         Forms\Components\TextInput::make('role')
-                                                            ->label('Role (e.g. Owner of Resto X)')
-                                                            ->required(),
+                                                            ->label('Role (e.g. Owner of Resto X)'),
                                                         Forms\Components\Textarea::make('quote')
                                                             ->label('Testimonial Quote')
-                                                            ->rows(3)
-                                                            ->required(),
+                                                            ->rows(3),
                                                         Forms\Components\Select::make('rating')
                                                             ->options([
                                                                 5 => '5 Stars',
                                                                 4 => '4 Stars',
                                                                 3 => '3 Stars',
                                                             ])
-                                                            ->default(5)
-                                                            ->required(),
+                                                            ->default(5),
                                                     ])
                                                     ->grid(2)
                                                     ->collapsible()
@@ -768,6 +762,59 @@ class ManageSettings extends SettingsPage
                                             ])
                                             ->columnSpanFull(),
                                     ]),
+                            ]),
+
+                        Forms\Components\Tabs\Tab::make('Chatbot')
+                            ->icon('heroicon-m-chat-bubble-left-right')
+                            ->schema([
+                                Forms\Components\Section::make('Chatbot Configuration')
+                                    ->description('Atur perilaku chatbot otomatis untuk menangkap data calon pelanggan (leads).')
+                                    ->schema([
+                                        Forms\Components\Toggle::make('chatbot_active')
+                                            ->label('Chatbot Aktif')
+                                            ->default(true),
+                                        Forms\Components\TextInput::make('chatbot_name')
+                                            ->label('Nama Bot (e.g. Nadia)')
+                                            ->required(),
+                                        Forms\Components\FileUpload::make('chatbot_avatar')
+                                            ->label('Avatar Bot')
+                                            ->image()
+                                            ->avatar()
+                                            ->directory('settings'),
+                                        Forms\Components\FileUpload::make('chatbot_background_image')
+                                            ->label('Background Chat Pattern')
+                                            ->image()
+                                            ->directory('settings')
+                                            ->helperText('Gunakan gambar pola (pattern) transparan untuk hasil terbaik (seperti WhatsApp doodle).'),
+                                        Forms\Components\TextInput::make('chatbot_whatsapp_number')
+                                            ->label('Nomor WhatsApp Tujuan (Format: 628...)')
+                                            ->required(),
+                                        Forms\Components\Textarea::make('chatbot_initial_greeting')
+                                            ->label('Pesan Sapaan Awal')
+                                            ->rows(2)
+                                            ->required(),
+                                        Forms\Components\Textarea::make('chatbot_ask_name_message')
+                                            ->label('Pesan Meminta Nama')
+                                            ->rows(2)
+                                            ->required(),
+                                        Forms\Components\Textarea::make('chatbot_ask_phone_message')
+                                            ->label('Pesan Meminta No. WhatsApp')
+                                            ->rows(2)
+                                            ->required(),
+                                        Forms\Components\Textarea::make('chatbot_ask_email_message')
+                                            ->label('Pesan Meminta Email')
+                                            ->rows(2)
+                                            ->required(),
+                                        Forms\Components\Textarea::make('chatbot_ask_reason_message')
+                                            ->label('Pesan Meminta Alasan/Tujuan')
+                                            ->rows(2)
+                                            ->required(),
+                                        Forms\Components\Textarea::make('chatbot_final_message')
+                                            ->label('Pesan Penutup (Sebelum Redirect)')
+                                            ->rows(2)
+                                            ->required(),
+                                    ])
+                                    ->columnSpanFull(),
                             ]),
 
                         Forms\Components\Tabs\Tab::make('Subscription')

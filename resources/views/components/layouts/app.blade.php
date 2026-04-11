@@ -161,76 +161,6 @@
     <div class="min-h-screen flex flex-col">
         {{ $slot }}
 
-        {{-- Theme Switcher Floating --}}
-        <div class="fixed bottom-6 right-6 z-[100]" x-data="{ open: false }">
-            <button @click="open = !open" 
-                    title="Switch Theme"
-                    class="p-3.5 rounded-2xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-gray-200/50 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:scale-110 active:scale-95 transition-all group overflow-hidden relative">
-                <div class="absolute inset-0 bg-primary-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                
-                {{-- Sun Icon --}}
-                <div x-show="theme === 'light'" x-cloak class="transform transition-transform group-hover:rotate-12">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-                    </svg>
-                </div>
-                
-                {{-- Moon Icon --}}
-                <div x-show="theme === 'dark'" x-cloak class="transform transition-transform group-hover:-rotate-12">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                </div>
-                
-                {{-- Device Icon --}}
-                <div x-show="theme === 'system'" x-cloak>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                </div>
-            </button>
-
-            <div x-show="open" 
-                 @click.away="open = false" 
-                 x-transition:enter="transition ease-out duration-200"
-                 x-transition:enter-start="opacity-0 translate-y-4 scale-95"
-                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                 x-transition:leave="transition ease-in duration-150"
-                 x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                 x-transition:leave-end="opacity-0 translate-y-4 scale-95"
-                 class="absolute bottom-full right-0 mb-4 w-48 bg-white/95 dark:bg-gray-800/95 backdrop-blur-2xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-gray-200/50 dark:border-white/10 p-2 z-[101]"
-                 x-cloak>
-                <div class="px-3 py-2 text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-1">Pilih Tema</div>
-                
-                <button @click="theme = 'light'; updateTheme(); open = false" 
-                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all"
-                        :class="theme === 'light' ? 'bg-primary-500/10 text-primary-600 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" :class="theme === 'light' ? 'text-amber-500' : 'opacity-50'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-                    </svg>
-                    Terang (Light)
-                </button>
-                
-                <button @click="theme = 'dark'; updateTheme(); open = false" 
-                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all"
-                        :class="theme === 'dark' ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" :class="theme === 'dark' ? 'text-indigo-400' : 'opacity-50'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                    Gelap (Dark)
-                </button>
-                
-                <button @click="theme = 'system'; updateTheme(); open = false" 
-                        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all"
-                        :class="theme === 'system' ? 'bg-gray-500/10 text-gray-700 dark:text-gray-200' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" :class="theme === 'system' ? 'opacity-100' : 'opacity-50'" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    Sistem (Auto)
-                </button>
-            </div>
-        </div>
-
 
         @if(!isset($hideLayoutFooter) || !$hideLayoutFooter)
             @if(!isset($restaurant) || !$restaurant->owner?->hasFeature('Remove Branding'))
@@ -415,5 +345,6 @@
         </div>
     </div>
     @endauth
+    @livewire('public.chatbot')
 </body>
 </html>

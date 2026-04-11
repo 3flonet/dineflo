@@ -30,6 +30,7 @@ For a comprehensive deep dive into the **46+ advanced features** and detailed sy
 - **EDC Payment Integration:** Native support for physical bank terminals with MDR fee tracking and reconciliation.
 - **Flexible Payments:** Integrated with Midtrans for seamless online transactions.
 - **Draggable & Customizable Dashboard:** Personalize widget layouts per-user with an interactive drag-and-drop interface.
+- **Intelligent Lead Chatbot:** WhatsApp-style automated bot with real-time "typing" realism and seamless CRM integration.
 
 
 ### 🍳 Operational Management
@@ -38,6 +39,7 @@ For a comprehensive deep dive into the **46+ advanced features** and detailed sy
 - **Loyalty Program:** Tiered loyalty points (Silver, Gold) to increase customer retention.
 - **Manual Menu Reordering:** Easily organize menu categories and items using a simple drag-and-drop handles.
 - **Marketing Tools:** Integrated Email and WhatsApp campaign management.
+- **Smart Chatbot Integration:** Real-time AI-powered lead generation with WhatsApp-style UI and automated data capture. [**View Chatbot Guide**](DOCS_CHATBOT.md)
 
 
 ### 🔐 Robust License Protection & Security

@@ -35,6 +35,19 @@ class GeneralSettings extends Settings
     public array $landing_partner_logos = [];
     public array $landing_testimonials = [];
 
+    // ── Chatbot Settings ─────────────────────────────────────────────────────
+    public bool $chatbot_active = true;
+    public string $chatbot_name = 'Nadia';
+    public ?string $chatbot_avatar = null;
+    public ?string $chatbot_background_image = null;
+    public string $chatbot_whatsapp_number = '628123456789';
+    public string $chatbot_initial_greeting = 'Halo! Perlu bantuan atau mau lihat demo singkat dari kami? 😊';
+    public string $chatbot_ask_name_message = 'Halo! Boleh tahu dengan siapa saya berbicara? Silakan tuliskan nama Anda ya 😊';
+    public string $chatbot_ask_phone_message = 'Sebelum kita lanjut, boleh minta nomor WhatsApp Anda dulu ya? Contoh: 08123456789';
+    public string $chatbot_ask_email_message = 'Terima kasih! Satu lagi, boleh tahu alamat email Anda? Contoh: nama@email.com';
+    public string $chatbot_ask_reason_message = 'Terakhir, boleh tahu apa yang ingin Anda tanyakan atau konsultasikan? Agar tim kami bisa membantu dengan lebih tepat 😊';
+    public string $chatbot_final_message = 'Terima kasih! 🎉 Data Anda sudah lengkap. Sekarang kami menghubungkan Anda langsung ke tim kami di WhatsApp.';
+
     // ── Social Media Links ───────────────────────────────────────────────────
     public ?string $site_facebook_url;
     public ?string $site_instagram_url;
