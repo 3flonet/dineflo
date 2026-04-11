@@ -41,13 +41,17 @@ class LicenseService
             // Trim secret to avoid issues with spaces/quotes
             $this->productSecret = trim($this->productSecret, " \t\n\r\0\x0B\"");
             
-            $response = Http::withoutVerifying()->withHeaders([
-                'X-Product-Secret' => $this->productSecret,
-                'Accept' => 'application/json',
-            ])->post("{$this->baseUrl}/api/v1/licenses/verify", [
-                'license_key' => $key,
-                'domain' => request()->getHost(),
-            ]);
+            $response = Http::withoutVerifying()
+                ->retry(3, 200)
+                ->timeout(20)
+                ->connectTimeout(10)
+                ->withHeaders([
+                    'X-Product-Secret' => $this->productSecret,
+                    'Accept' => 'application/json',
+                ])->post("{$this->baseUrl}/api/v1/licenses/verify", [
+                    'license_key' => $key,
+                    'domain' => request()->getHost(),
+                ]);
             
             // diagnostic log
             if (!$response->successful()) {
@@ -56,7 +60,7 @@ class LicenseService
 
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::error('🔌 Hub Connection Exception: ' . $e->getMessage());
-            return ['success' => false, 'message' => 'License Hub Connection Error: ' . $e->getMessage()];
+            return ['success' => false, 'message' => 'License server unreachable. Please try again or check your internet connection. (Error: ' . $e->getMessage() . ')'];
         }
 
         if ($response->successful()) {
@@ -118,13 +122,17 @@ class LicenseService
             }
 
             try {
-                $response = \Illuminate\Support\Facades\Http::withoutVerifying()->withHeaders([
-                    'X-Product-Secret' => $this->productSecret,
-                    'Accept' => 'application/json',
-                ])->post("{$this->baseUrl}/api/v1/licenses/ping", [
-                    'license_key' => $this->licenseKey,
-                    'domain' => request()->getHost(),
-                ]);
+                $response = \Illuminate\Support\Facades\Http::withoutVerifying()
+                    ->retry(3, 200)
+                    ->timeout(20)
+                    ->connectTimeout(10)
+                    ->withHeaders([
+                        'X-Product-Secret' => $this->productSecret,
+                        'Accept' => 'application/json',
+                    ])->post("{$this->baseUrl}/api/v1/licenses/ping", [
+                        'license_key' => $this->licenseKey,
+                        'domain' => request()->getHost(),
+                    ]);
                 
                 \Illuminate\Support\Facades\Log::info('📶 Hub Ping Check - Status: ' . $response->status() . ' Body: ' . $response->body());
                 

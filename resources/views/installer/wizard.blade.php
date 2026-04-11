@@ -422,24 +422,42 @@
                 async verifyLicense() {
                     this.loading = true;
                     this.error = null;
-                    try {
-                        const res = await fetch('/install/license', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': this.csrfToken },
-                            body: JSON.stringify({ 
-                                license_key: this.licenseKey,
-                                product_secret: this.productSecret 
-                            })
-                        });
-                        const data = await res.json();
-                        if (data.success) {
-                            this.nextStep();
-                        } else {
-                            this.error = data.message;
+                    
+                    const performVerify = async (retryCount = 0) => {
+                        try {
+                            const res = await fetch('/install/license', {
+                                method: 'POST',
+                                headers: { 
+                                    'Content-Type': 'application/json', 
+                                    'X-CSRF-TOKEN': this.csrfToken,
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify({ 
+                                    license_key: this.licenseKey,
+                                    product_secret: this.productSecret 
+                                })
+                            });
+
+                            const data = await res.json();
+                            if (data.success) {
+                                this.nextStep();
+                                return true;
+                            } else {
+                                this.error = data.message;
+                                return false;
+                            }
+                        } catch (e) {
+                            if (retryCount < 1) {
+                                // Simple auto-retry on network error
+                                console.warn('Retrying license authentication...');
+                                return await performVerify(retryCount + 1);
+                            }
+                            this.error = 'Could not connect to license server. Please click "Authorize System" to try again. (Reason: ' + e.message + ')';
+                            return false;
                         }
-                    } catch (e) {
-                        this.error = 'License server unreachable.';
-                    }
+                    };
+
+                    await performVerify();
                     this.loading = false;
                 },
 
