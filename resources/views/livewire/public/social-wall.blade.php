@@ -1,77 +1,7 @@
 @php $settings = $settings ?? app(\App\Settings\GeneralSettings::class); @endphp
 <div class="bg-gray-50 dark:bg-[#0B0F19] text-gray-400 dark:text-gray-300 min-h-screen font-sans overflow-x-hidden transition-colors duration-300" x-data="{ mobileMenu: false }">
     
-    {{-- Navbar --}}
-    <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200 dark:border-white/5 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16 md:h-20">
-            <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                @if($settings->site_logo)
-                    <img src="{{ Storage::url($settings->site_logo) }}" alt="{{ $settings->site_name }}" class="h-8 md:h-10 w-auto object-contain">
-                @else
-                    <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-gradient-to-br from-primary-500 to-indigo-600 dark:from-indigo-500 dark:to-purple-600 flex items-center justify-center">
-                        <svg class="w-4 h-4 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    </div>
-                @endif
-                <span class="font-bold text-lg md:text-xl text-gray-900 dark:text-white transition-colors">{{ $settings->site_name }}</span>
-            </a>
-            
-            {{-- Desktop Navigation --}}
-            <div class="hidden md:flex items-center gap-6">
-                <a href="{{ route('home') }}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition group flex items-center gap-1">
-                    Beranda
-                </a>
-                <a href="{{ route('features') }}" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-white transition">Fitur</a>
-                <a href="{{ route('home') }}#harga" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-white transition">Harga</a>
-                <a href="{{ route('community') }}" class="text-sm font-medium text-primary-600 dark:text-white transition border-b-2 border-primary-500">Community</a>
-                <a href="{{ route('consultation') }}" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-white transition">Konsultasi</a>
-                
-                <div class="w-px h-5 bg-gray-200 dark:bg-gray-700 mx-2"></div>
-
-                {{-- Theme Toggle Desktop --}}
-                <button @click="theme = theme === 'light' ? 'dark' : 'light'; updateTheme()" 
-                        class="p-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/10 transition-all flex items-center justify-center focus:outline-none">
-                    <svg x-show="theme === 'light'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                    <svg x-show="theme === 'dark' || theme === 'system'" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-                    </svg>
-                </button>
-
-                <a href="{{ route('filament.restaurant.auth.register') }}" class="px-5 py-2.5 rounded-full bg-primary-600 hover:bg-primary-500 text-white text-sm font-semibold transition shadow-sm">Mulai Gratis</a>
-            </div>
-
-            {{-- Mobile Controls --}}
-            <div class="flex items-center gap-2 md:hidden">
-                <button @click="theme = theme === 'light' ? 'dark' : 'light'; updateTheme()" 
-                        class="p-2 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400">
-                    <svg x-show="theme === 'light'" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                    <svg x-show="theme === 'dark' || theme === 'system'" x-cloak xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-                    </svg>
-                </button>
-                <button @click="mobileMenu = !mobileMenu" class="p-2 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300">
-                    <svg x-show="!mobileMenu" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
-                    <svg x-show="mobileMenu" x-cloak class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-            </div>
-        </div>
-
-        {{-- Mobile Menu Panel --}}
-        <div x-show="mobileMenu" x-cloak x-collapse class="md:hidden border-t border-gray-200 dark:border-white/10 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-md">
-            <div class="px-4 py-6 space-y-4">
-                <a href="{{ route('home') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Beranda</a>
-                <a href="{{ route('features') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Fitur</a>
-                <a href="{{ route('home') }}#harga" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Harga</a>
-                <a href="{{ route('community') }}" class="block text-sm font-medium text-primary-600 dark:text-white font-bold">Community</a>
-                <a href="{{ route('consultation') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Konsultasi</a>
-                <div class="h-px bg-gray-100 dark:bg-gray-800"></div>
-                <a href="{{ route('filament.restaurant.auth.register') }}" class="block w-full py-4 text-center rounded-xl bg-primary-600 text-white font-bold text-sm shadow-lg shadow-primary-500/20">Mulai Gratis</a>
-            </div>
-        </div>
-    </nav>
+    @include('components.public.navbar')
 
     <div class="max-w-7xl mx-auto pt-32 pb-20 px-4">
         <!-- Header -->

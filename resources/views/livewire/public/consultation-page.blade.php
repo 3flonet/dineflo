@@ -1,17 +1,5 @@
 <div class="bg-white dark:bg-[#0B0F19] text-gray-600 dark:text-gray-300 min-h-screen font-sans selection:bg-indigo-500 selection:text-white overflow-x-hidden transition-colors duration-300">
     <style>
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
-        }
-        .dark .glass-panel {
-            background: rgba(17, 24, 39, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-        }
         .text-gradient {
             background-clip: text;
             -webkit-background-clip: text;
@@ -23,56 +11,7 @@
         }
     </style>
 
-    <!-- Header / Navbar Space -->
-    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-gray-200 dark:border-white/10 transition-colors duration-300" x-data="{ mobileMenu: false }">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="{{ route('home') }}" class="flex-shrink-0 flex items-center gap-3 cursor-pointer">
-                    @if($settings->site_logo)
-                        <img src="{{ Storage::url($settings->site_logo) }}" alt="{{ $settings->site_name }}" class="h-10 w-auto object-contain">
-                    @else
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        </div>
-                    @endif
-                    <span class="font-bold text-2xl tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">{{ $settings->site_name }}</span>
-                </a>
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="{{ route('home') }}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Beranda</a>
-                    <a href="{{ route('home') }}#fitur" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Fitur</a>
-                    <a href="{{ route('community') }}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Community</a>
-                    <a href="{{ route('consultation') }}" class="text-sm font-medium text-primary-600 dark:text-white transition border-b-2 border-primary-500">Konsultasi</a>
-                    
-                    <div class="w-px h-5 bg-gray-200 dark:bg-gray-700"></div>
-                    
-                    <a href="{{ route('filament.restaurant.auth.login') }}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Login</a>
-                    <a href="{{ route('filament.restaurant.auth.register') }}" class="px-5 py-2.5 rounded-full bg-primary-600 hover:bg-primary-500 text-white text-sm font-bold transition shadow-sm">
-                        Mulai Gratis
-                    </a>
-                </div>
-
-                {{-- Mobile Menu Button --}}
-                <div class="md:hidden flex items-center gap-2">
-                    <button @click="mobileMenu = !mobileMenu" class="p-2 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300">
-                        <svg x-show="!mobileMenu" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
-                        <svg x-show="mobileMenu" x-cloak class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        {{-- Mobile Menu Panel --}}
-        <div x-show="mobileMenu" x-cloak x-collapse class="md:hidden border-t border-gray-200 dark:border-white/10 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-md">
-            <div class="px-4 py-6 space-y-4">
-                <a href="{{ route('home') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Beranda</a>
-                <a href="{{ route('community') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Community</a>
-                <a href="{{ route('consultation') }}" class="block text-sm font-medium text-primary-600 dark:text-white">Konsultasi</a>
-                <div class="h-px bg-gray-200 dark:bg-gray-800"></div>
-                <a href="{{ route('filament.restaurant.auth.login') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Login Restoran</a>
-                <a href="{{ route('filament.restaurant.auth.register') }}" class="block w-full py-3 text-center rounded-xl bg-primary-600 text-white font-bold text-sm shadow-lg">Daftar Sekarang</a>
-            </div>
-        </div>
-    </nav>
+@include('components.public.navbar')
     <div class="h-20"></div>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
