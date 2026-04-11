@@ -40,6 +40,7 @@
                 <div class="hidden md:flex space-x-8 items-center">
                     <a href="{{ route('home') }}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Beranda</a>
                     <a href="{{ route('home') }}#fitur" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Fitur</a>
+                    <a href="{{ route('community') }}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Community</a>
                     <a href="{{ route('consultation') }}" class="text-sm font-medium text-primary-600 dark:text-white transition border-b-2 border-primary-500">Konsultasi</a>
                     
                     <div class="w-px h-5 bg-gray-200 dark:bg-gray-700"></div>
@@ -64,6 +65,7 @@
         <div x-show="mobileMenu" x-cloak x-collapse class="md:hidden border-t border-gray-200 dark:border-white/10 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-md">
             <div class="px-4 py-6 space-y-4">
                 <a href="{{ route('home') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Beranda</a>
+                <a href="{{ route('community') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Community</a>
                 <a href="{{ route('consultation') }}" class="block text-sm font-medium text-primary-600 dark:text-white">Konsultasi</a>
                 <div class="h-px bg-gray-200 dark:bg-gray-800"></div>
                 <a href="{{ route('filament.restaurant.auth.login') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Login Restoran</a>

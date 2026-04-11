@@ -59,6 +59,7 @@
                     <a href="#solusi" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Solusi</a>
                     <a href="#komparasi" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Komparasi</a>
                     <a href="#harga" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Harga</a>
+                    <a href="{{ route('community') }}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Community</a>
                     <a href="{{ route('consultation') }}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white transition">Konsultasi</a>
                     <div class="w-px h-5 bg-gray-200 dark:bg-gray-700"></div>
                     
@@ -106,6 +107,7 @@
                 <a @click="mobileMenu = false" href="#solusi" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Solusi</a>
                 <a @click="mobileMenu = false" href="#komparasi" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Komparasi</a>
                 <a @click="mobileMenu = false" href="#harga" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Harga</a>
+                <a href="{{ route('community') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Community</a>
                 <a href="{{ route('consultation') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Konsultasi</a>
                 <div class="h-px bg-gray-200 dark:bg-gray-800"></div>
                 <a href="{{ route('filament.restaurant.auth.login') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Login Restoran</a>

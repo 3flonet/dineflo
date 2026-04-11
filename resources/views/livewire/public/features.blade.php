@@ -96,6 +96,7 @@
                 Beranda
             </a>
             <a href="{{ route('home') }}#harga" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-white transition">Harga</a>
+            <a href="{{ route('community') }}" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-white transition">Community</a>
             <a href="{{ route('consultation') }}" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-white transition">Konsultasi</a>
             <a href="{{ route('filament.restaurant.auth.login') }}" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-white transition">Login Restoran</a>
             
@@ -141,6 +142,7 @@
         <div class="px-4 py-6 space-y-4">
             <a href="{{ route('home') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Beranda</a>
             <a href="{{ route('home') }}#harga" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Harga</a>
+            <a href="{{ route('community') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Community</a>
             <a href="{{ route('consultation') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Konsultasi</a>
             <a href="{{ route('filament.restaurant.auth.login') }}" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Login Restoran</a>
             <div class="h-px bg-gray-100 dark:bg-gray-800"></div>

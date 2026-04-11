@@ -12,6 +12,7 @@ Route::get('/features/{feature:slug}', App\Livewire\Public\FeatureDetail::class)
 
 // PWA Offline Route
 Route::get('/consultation', App\Livewire\Public\ConsultationPage::class)->name('consultation');
+Route::get('/community', App\Livewire\Public\SocialWall::class)->name('community');
 Route::view('/offline', 'offline');
 
 // System Health Check
