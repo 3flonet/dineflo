@@ -12,7 +12,7 @@
 
 ---
 
-## 🚀 Daftar 44 Fitur Utama (Master List untuk Proposal)
+## 🚀 Daftar 46 Fitur Utama (Master List untuk Proposal)
 
 ### 🛒 A. Ordering & Customer Experience (7 Fitur)
 1. **QR Order Mandiri:** Pelanggan memesan langsung dari meja via browser tanpa perlu download aplikasi. Mengurangi beban kerja pelayan hingga 40%.
