@@ -126,18 +126,49 @@
             </div>
         </x-filament::section>
 
-        {{-- Section Title --}}
-        <div style="margin-top: 3.5rem; margin-bottom: 0.5rem;">
-            <h3 class="text-2xl md:text-3xl font-black tracking-tight text-gray-950 dark:text-white">Pilih Paket Langganan</h3>
-            <p class="text-base text-gray-500 mt-2">Dapatkan akses ke lebih banyak fitur premium untuk memajukan bisnis kuliner Anda.</p>
+        {{-- Section Title & Billing Toggle --}}
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4" style="margin-top: 3.5rem; margin-bottom: 1.5rem;">
+            <div class="flex-grow">
+                <h3 class="text-2xl md:text-3xl font-black tracking-tight text-gray-950 dark:text-white">Pilih Paket Langganan</h3>
+                <p class="text-base text-gray-500 mt-2">Dapatkan akses ke lebih banyak fitur premium untuk memajukan bisnis kuliner Anda.</p>
+            </div>
+
+            {{-- Billing Toggle --}}
+            @if($plans->where('has_yearly', true)->count() > 0)
+            <div class="bg-gray-100 dark:bg-gray-800 p-1 rounded-xl inline-flex items-center self-center md:self-end">
+                <button 
+                    type="button"
+                    wire:click="$set('billingPeriod', 'monthly')"
+                    class="px-4 py-2 text-sm font-bold rounded-lg transition-all {{ $billingPeriod === 'monthly' ? 'bg-white dark:bg-gray-700 text-primary-600 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300' }}"
+                >
+                    Bulanan
+                </button>
+                <button 
+                    type="button"
+                    wire:click="$set('billingPeriod', 'yearly')"
+                    class="px-4 py-2 text-sm font-bold rounded-lg transition-all flex items-center gap-2 {{ $billingPeriod === 'yearly' ? 'bg-white dark:bg-gray-700 text-primary-600 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300' }}"
+                >
+                    Tahunan
+                    @php $maxSaving = $plans->where('has_yearly', true)->map(fn($p) => $p->yearlySavingsPercent())->max(); @endphp
+                    @if($maxSaving)
+                        <span class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 text-[10px] px-1.5 py-0.5 rounded-md">
+                            -{{ $maxSaving }}%
+                        </span>
+                    @endif
+                </button>
+            </div>
+            @endif
         </div>
 
         {{-- Plans Grid --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             @foreach($plans as $plan)
                 @php
-                    $isPopular = $plan->name === 'Professional' || $plan->price > 0 && $plan->price < 500000;
-                    $isCurrent = $currentSubscription && $currentSubscription->subscription_plan_id === $plan->id && $currentSubscription->isValid();
+                    $isPopular      = $plan->is_highlighted;
+                    $isCurrent      = $currentSubscription && $currentSubscription->subscription_plan_id === $plan->id && $currentSubscription->isValid() && $currentSubscription->billing_period === $billingPeriod;
+                    $savingPct      = $plan->yearlySavingsPercent();
+                    $displayPrice   = ($billingPeriod === 'yearly' && $plan->has_yearly) ? $plan->yearly_price : $plan->price;
+                    $periodLabel    = ($billingPeriod === 'yearly' && $plan->has_yearly) ? '1 thn' : $plan->duration_days . ' hr';
                 @endphp
                 
                 <div class="relative flex flex-col pt-3">
@@ -147,16 +178,36 @@
                         </div>
                     @endif
 
+                    @if($billingPeriod === 'yearly' && $plan->has_yearly && $savingPct)
+                        <div class="absolute top-6 right-3 z-10">
+                            <span class="bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
+                                HEMAT {{ $savingPct }}%
+                            </span>
+                        </div>
+                    @endif
+
                     <x-filament::section class="h-full flex flex-col {{ $isPopular ? 'ring-2 ring-primary-500 shadow-xl shadow-primary-500/10' : '' }}">
                         <div class="flex-grow space-y-6 flex flex-col h-full">
                             <div class="text-center space-y-2 border-b border-gray-200 dark:border-gray-700 pb-4 shrink-0">
                                 <h4 class="text-xl font-bold text-gray-950 dark:text-white">{{ $plan->name }}</h4>
-                                <div class="flex items-end justify-center gap-1">
-                                    <span class="text-3xl font-black text-gray-950 dark:text-white">
-                                        {{ $plan->price == 0 ? 'Free' : 'Rp ' . number_format($plan->price, 0, ',', '.') }}
-                                    </span>
-                                    @if($plan->price > 0)
-                                        <span class="text-sm font-medium text-gray-500">/ {{ $plan->duration_days }} hr</span>
+                                <div class="flex flex-col items-center justify-center">
+                                    <div class="flex items-end justify-center gap-1">
+                                        <span class="text-3xl font-black text-gray-950 dark:text-white">
+                                            {{ $displayPrice == 0 ? 'Free' : 'Rp ' . number_format($displayPrice, 0, ',', '.') }}
+                                        </span>
+                                        @if($displayPrice > 0)
+                                            <span class="text-sm font-medium text-gray-500">/ {{ $periodLabel }}</span>
+                                        @endif
+                                    </div>
+                                    
+                                    @if($billingPeriod === 'yearly' && $plan->has_yearly && $plan->monthlyEquivalentYearly())
+                                        <p class="text-[10px] text-gray-400 mt-1">
+                                            Sekitar Rp {{ number_format($plan->monthlyEquivalentYearly(), 0, ',', '.') }}/bulan
+                                        </p>
+                                    @elseif($billingPeriod === 'yearly' && !$plan->has_yearly && $plan->price > 0)
+                                        <p class="text-[10px] text-amber-500 mt-1 italic">
+                                            Hanya tersedia bulanan
+                                        </p>
                                     @endif
                                 </div>
                             </div>
@@ -302,7 +353,10 @@
     
     @php
         $settings = app(\App\Settings\GeneralSettings::class);
-        $midtransClientKey = !empty(trim($settings->midtrans_client_key ?? '')) ? trim($settings->midtrans_client_key) : config('midtrans.client_key');
+        $cKey = $settings->midtrans_client_key ?? '';
+        try { $cKey = \Illuminate\Support\Facades\Crypt::decryptString($cKey); } catch (\Exception $e) {}
+        
+        $midtransClientKey = !empty(trim($cKey)) ? trim($cKey) : config('midtrans.client_key');
         $midtransIsProd = $settings->midtrans_is_production ?? config('midtrans.is_production');
         $snapSrc = $midtransIsProd ? 'https://app.midtrans.com/snap/snap.js' : 'https://app.sandbox.midtrans.com/snap/snap.js';
     @endphp

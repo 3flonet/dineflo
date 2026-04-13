@@ -17,9 +17,14 @@ class MidtransController extends Controller
     {
         $settings = app(\App\Settings\GeneralSettings::class);
 
-        // Default: pakai key Dineflo dari GeneralSettings (Admin Panel) atau fallback ke .env
-        Config::$serverKey    = !empty(trim($settings->midtrans_server_key ?? '')) ? trim($settings->midtrans_server_key) : config('midtrans.server_key');
-        Config::$isProduction = $settings->midtrans_is_production ?? config('midtrans.is_production');
+        // Gunakan pengaturan dari GeneralSettings (Admin Panel)
+        $sKey = $settings->midtrans_server_key;
+        try { $sKey = \Illuminate\Support\Facades\Crypt::decryptString($sKey); } catch (\Exception $e) {}
+        
+        Config::$serverKey    = !empty(trim($sKey)) ? trim($sKey) : config('midtrans.server_key');
+        
+        // Auto-detect isProduction dari Server Key untuk keamanan extra
+        Config::$isProduction = !str_starts_with(trim(Config::$serverKey), 'SB-');
         
         Config::$isSanitized  = config('midtrans.is_sanitized', true);
         Config::$is3ds        = config('midtrans.is_3ds', true);

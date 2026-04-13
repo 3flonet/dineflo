@@ -24,12 +24,19 @@ class MidtransService
             && !empty(trim($restaurant->midtrans_server_key));
 
         if ($useOwn) {
-            Config::$serverKey    = trim($restaurant->midtrans_server_key);
+            $sKey = $restaurant->midtrans_server_key;
+            try { $sKey = \Illuminate\Support\Facades\Crypt::decryptString($sKey); } catch (\Exception $e) {}
+            Config::$serverKey    = trim($sKey);
             Config::$isProduction = !str_starts_with(Config::$serverKey, 'SB-');
         } else {
             // Gunakan pengaturan dari GeneralSettings (Admin Panel)
-            Config::$serverKey    = !empty(trim($settings->midtrans_server_key)) ? trim($settings->midtrans_server_key) : config('midtrans.server_key');
-            Config::$isProduction = $settings->midtrans_is_production ?? config('midtrans.is_production');
+            $sKey = $settings->midtrans_server_key;
+            try { $sKey = \Illuminate\Support\Facades\Crypt::decryptString($sKey); } catch (\Exception $e) {}
+            
+            Config::$serverKey    = !empty(trim($sKey)) ? trim($sKey) : config('midtrans.server_key');
+            
+            // Auto-detect isProduction dari Server Key untuk keamanan extra
+            Config::$isProduction = !str_starts_with(trim(Config::$serverKey), 'SB-');
         }
 
         Config::$isSanitized  = config('midtrans.is_sanitized', true);
@@ -98,13 +105,14 @@ class MidtransService
     public function createSubscriptionSnapToken(\App\Models\Subscription $subscription)
     {
         // Get plan info
-        $plan = $subscription->plan;
+        $plan     = $subscription->plan;
+        $isYearly = ($subscription->billing_period === 'yearly');
         
         // Total price from plan (Cast to int for Midtrans)
-        $grossAmount = (int) $plan->price;
+        $grossAmount = $isYearly ? (int) $plan->yearly_price : (int) $plan->price;
+        $labelPeriod = $isYearly ? '1 year' : $plan->duration_days . ' days';
         
         // Generate Invoice ID (Unique for every retry to avoid duplicate order_id error)
-        // Format: SUB-{SUB_ID}-{TIMESTAMP}
         $midtransOrderId = 'SUB-' . $subscription->id . '-' . time();
         
         $params = [
@@ -118,10 +126,10 @@ class MidtransService
             ],
             'item_details' => [
                 [
-                    'id' => 'PLAN-' . $plan->id,
+                    'id' => 'PLAN-' . $plan->id . ($isYearly ? '-Y' : '-M'),
                     'price' => $grossAmount,
                     'quantity' => 1,
-                    'name' => substr("Subscription: " . $plan->name . " (" . $plan->duration_days . " days)", 0, 50),
+                    'name' => substr("Subscription: " . $plan->name . " (" . $labelPeriod . ")", 0, 50),
                 ]
             ],
             'callbacks' => [

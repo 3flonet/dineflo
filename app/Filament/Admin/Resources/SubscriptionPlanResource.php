@@ -54,6 +54,8 @@ class SubscriptionPlanResource extends Resource
                             ->numeric()
                             ->default(30)
                             ->suffix('days'),
+
+                        // Row: has_yearly (kiri) | yearly_price (kanan, conditional)
                         Forms\Components\Toggle::make('has_yearly')
                             ->label('Aktifkan Periode Tahunan')
                             ->helperText('Jika aktif, tampilkan opsi bayar tahunan dengan harga khusus di landing page.')
@@ -77,9 +79,8 @@ class SubscriptionPlanResource extends Resource
                             })
                             ->visible(fn (Forms\Get $get) => (bool) $get('has_yearly'))
                             ->required(fn (Forms\Get $get) => (bool) $get('has_yearly')),
-                        Forms\Components\Toggle::make('is_active')
-                            ->required()
-                            ->default(true),
+
+                        // Baris bawah: toggle-toggle
                         Forms\Components\Toggle::make('is_highlighted')
                             ->label('Tampilkan Badge "Paling Laris"')
                             ->helperText('Aktifkan untuk menampilkan badge "PALING LARIS" di landing page. Disarankan hanya 1 plan.')
@@ -91,7 +92,14 @@ class SubscriptionPlanResource extends Resource
                             ->helperText('Jika aktif, restoran baru akan otomatis berlangganan paket ini.')
                             ->default(false)
                             ->onColor('success'),
+                        Forms\Components\Toggle::make('is_active')
+                            ->label('Is active')
+                            ->required()
+                            ->default(true)
+                            ->onColor('success')
+                            ->columnSpanFull(),
                     ])->columns(2),
+
 
                 Forms\Components\Section::make('Features & Limits')
                     ->schema([

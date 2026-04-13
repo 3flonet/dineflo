@@ -27,6 +27,7 @@ class MySubscription extends Page
     public $currentSubscription;
     public $invoices;
     public $snapToken;
+    public $billingPeriod = 'monthly'; // Opsi: monthly, yearly
 
     /** @var bool Apakah user yang sedang login adalah staff (bukan owner)? */
     public bool $isStaff = false;
@@ -116,9 +117,10 @@ class MySubscription extends Page
             Subscription::create([
                 'user_id'              => auth()->id(),
                 'subscription_plan_id' => $plan->id,
+                'billing_period'        => $this->billingPeriod,
                 'status'               => 'active',
                 'starts_at'            => now(),
-                'expires_at'           => now()->addDays((int) $plan->duration_days),
+                'expires_at'           => ($this->billingPeriod === 'yearly') ? now()->addYear() : now()->addDays((int) $plan->duration_days),
             ]);
 
             $this->loadCurrentSubscription();
@@ -130,6 +132,7 @@ class MySubscription extends Page
         $subscription = Subscription::create([
             'user_id'              => auth()->id(),
             'subscription_plan_id' => $plan->id,
+            'billing_period'       => $this->billingPeriod,
             'status'               => 'pending_payment',
             'starts_at'            => null,
             'expires_at'           => null,
@@ -149,7 +152,7 @@ class MySubscription extends Page
                 Notification::make()->title('Payment Error')->body('Could not generate payment token.')->danger()->send();
             }
         } catch (\Exception $e) {
-            Log::error($e);
+            \Log::error('Midtrans Subscription Snap Error: ' . $e->getMessage());
             Notification::make()->title('System Error')->body($e->getMessage())->danger()->send();
         }
     }

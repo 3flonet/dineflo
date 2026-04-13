@@ -39,33 +39,34 @@ class Subscription extends Model
     public function activate($paymentId = null)
     {
         // Prevent double activation logic if already valid
-        // But allow update if status is not active or expired
         if ($this->isValid()) {
-             // Maybe extend? For now just return.
              return;
         }
 
+        $durationDays = (int) $this->plan->duration_days;
+        $isYearly     = ($this->billing_period === 'yearly');
+        $price        = $isYearly ? $this->plan->yearly_price : $this->plan->price;
+
         $this->update([
-            'status' => 'active',
-            'starts_at' => now(),
-            'expires_at' => now()->addDays($this->plan->duration_days),
+            'status'     => 'active',
+            'starts_at'  => now(),
+            'expires_at' => $isYearly ? now()->addYear() : now()->addDays($durationDays),
         ]);
         
         // Create Invoice Record
         if ($paymentId) {
-            // Check for existing invoice with same payment ID to prevent duplicates
             $invoice = $this->invoices()->where('midtrans_id', $paymentId)->first();
             
             if (!$invoice) {
                 $invoice = $this->invoices()->create([
-                    'amount' => $this->plan->price,
-                    'status' => 'paid',
-                    'paid_at' => now(),
+                    'amount'      => $price,
+                    'status'      => 'paid',
+                    'paid_at'     => now(),
                     'midtrans_id' => $paymentId,
                 ]);
             }
             
-            // Send Automated Email Notification with Attachment
+            // Send Automated Email Notification
             if ($invoice && $invoice->amount > 0) {
                  try {
                      \Illuminate\Support\Facades\Mail::to($this->user->email)->send(new \App\Mail\SubscriptionInvoiceMail($invoice));
