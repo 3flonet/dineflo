@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SettingsSeeder::class,
             SocialProofSeeder::class,
-            SubscriptionPlanSeeder::class,
+            // SubscriptionPlanSeeder::class,
             EssentialRolesSeeder::class, // Modern split
             FinancialInsightsPermissionSeeder::class,
             IngredientStockPermissionSeeder::class,
