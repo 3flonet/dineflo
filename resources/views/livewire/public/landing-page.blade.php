@@ -596,21 +596,76 @@
     </div>
 
     <!-- 6. Harga -->
-    <div id="harga" class="py-24 relative overflow-hidden transition-colors duration-300">
+    <div id="harga" class="py-24 relative overflow-hidden transition-colors duration-300"
+         x-data="{
+            billing: 'monthly',
+            hasYearly: {{ $plans->where('has_yearly', true)->count() > 0 ? 'true' : 'false' }}
+         }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-16">
+            <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Investasi Berkelas, Berintegritas.</h2>
                 <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">Pilih paket yang sesuai untuk mengembangkan restoran Anda. Tidak ada komisi per pesanan tersembunyi.</p>
             </div>
 
+            {{-- Billing Toggle (hanya tampil jika ada paket dengan harga tahunan) --}}
+            @if($plans->where('has_yearly', true)->count() > 0)
+            <div class="flex items-center justify-center gap-4 mb-12">
+                <span class="text-sm font-semibold transition-colors duration-200"
+                      :class="billing === 'monthly' ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'">
+                    Bulanan
+                </span>
+
+                {{-- Switch Toggle --}}
+                <button type="button"
+                    @click="billing = billing === 'monthly' ? 'yearly' : 'monthly'"
+                    class="relative inline-flex h-7 w-14 items-center rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    :class="billing === 'yearly' ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-gray-600'"
+                    role="switch" :aria-checked="billing === 'yearly'">
+                    <span class="inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-300"
+                          :class="billing === 'yearly' ? 'translate-x-8' : 'translate-x-1'"></span>
+                </button>
+
+                <span class="flex items-center gap-2 text-sm font-semibold transition-colors duration-200"
+                      :class="billing === 'yearly' ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'">
+                    Tahunan
+                    @php $maxSaving = $plans->where('has_yearly', true)->map(fn($p) => $p->yearlySavingsPercent())->filter()->max(); @endphp
+                    @if($maxSaving)
+                    <span class="inline-block bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 text-xs font-bold px-2.5 py-0.5 rounded-full">
+                        Hemat hingga {{ $maxSaving }}%
+                    </span>
+                    @endif
+                </span>
+            </div>
+            @endif
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($plans as $plan)
-                    @php $isPopular = $plan->is_highlighted; @endphp
+                    @php
+                        $isPopular      = $plan->is_highlighted;
+                        $savingPct      = $plan->yearlySavingsPercent();
+                        $monthlyPrice   = (float) $plan->price;
+                        $yearlyPrice    = (float) ($plan->yearly_price ?? 0);
+                        $monthlyFmtd    = number_format($monthlyPrice, 0, ',', '.');
+                        $yearlyFmtd     = number_format($yearlyPrice, 0, ',', '.');
+                        $monthlyEquiv   = $plan->monthlyEquivalentYearly();
+                        $monthlyEquivFmtd = $monthlyEquiv ? number_format($monthlyEquiv, 0, ',', '.') : null;
+                    @endphp
                     <div class="glass-panel p-8 rounded-2xl flex flex-col relative {{ $isPopular ? 'border-indigo-500/50 shadow-[0_0_30px_rgba(99,102,241,0.2)] transform lg:-translate-y-4' : '' }}">
                         @if($isPopular)
                             <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg">
                                 PALING LARIS
                             </div>
+                        @endif
+
+                        {{-- Savings Badge (tahunan) --}}
+                        @if($plan->has_yearly && $savingPct)
+                        <div x-show="billing === 'yearly'"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-90"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             class="absolute top-3 right-3 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
+                            Hemat {{ $savingPct }}%
+                        </div>
                         @endif
 
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ $plan->name }}</h3>
@@ -619,22 +674,56 @@
                         @else
                             <div class="mb-5"></div>
                         @endif
-                        
-                        <div class="mb-6">
-                            @if($plan->price == 0)
+
+                        {{-- Harga --}}
+                        <div class="mb-6 min-h-[72px]">
+                            @if($monthlyPrice == 0)
                                 <span class="text-4xl font-extrabold text-gray-900 dark:text-white">Gratis</span>
                             @else
-                                <span class="text-2xl font-bold text-amber-600 dark:text-amber-400">Rp</span>
-                                <span class="text-3xl font-extrabold text-amber-600 dark:text-amber-400">{{ number_format($plan->price, 0, ',', '.') }}</span>
-                                <span class="text-gray-600 dark:text-gray-400 text-sm">/ {{ ($plan->billing_period ?? 'monthly') == 'monthly' ? 'bulan' : 'tahun' }}</span>
+                                {{-- BULANAN --}}
+                                <div x-show="billing === 'monthly'" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                                    <div class="flex items-end gap-1">
+                                        <span class="text-2xl font-bold text-amber-600 dark:text-amber-400">Rp</span>
+                                        <span class="text-3xl font-extrabold text-amber-600 dark:text-amber-400">{{ $monthlyFmtd }}</span>
+                                        <span class="text-gray-500 dark:text-gray-400 text-sm mb-1">/bulan</span>
+                                    </div>
+                                </div>
+
+                                {{-- TAHUNAN --}}
+                                @if($plan->has_yearly)
+                                <div x-show="billing === 'yearly'" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                                    <div class="flex items-end gap-1 mb-1">
+                                        <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">Rp</span>
+                                        <span class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">{{ $yearlyFmtd }}</span>
+                                        <span class="text-gray-500 dark:text-gray-400 text-sm mb-1">/tahun</span>
+                                    </div>
+                                    @if($monthlyEquivFmtd)
+                                    <p class="text-xs text-gray-400 dark:text-gray-500">
+                                        <span class="line-through">Rp {{ $monthlyFmtd }} ×12</span>
+                                        → Rp {{ $monthlyEquivFmtd }}/bulan
+                                    </p>
+                                    @endif
+                                </div>
+                                @else
+                                {{-- Plan ini tidak punya harga tahunan, tetap tampil harga bulanan --}}
+                                <div x-show="billing === 'yearly'">
+                                    <div class="flex items-end gap-1">
+                                        <span class="text-2xl font-bold text-amber-600 dark:text-amber-400">Rp</span>
+                                        <span class="text-3xl font-extrabold text-amber-600 dark:text-amber-400">{{ $monthlyFmtd }}</span>
+                                        <span class="text-gray-500 dark:text-gray-400 text-sm mb-1">/bulan</span>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">Tidak tersedia harga tahunan</p>
+                                </div>
+                                @endif
                             @endif
                         </div>
 
+                        {{-- Fitur --}}
                         <div class="mb-8 flex-1 space-y-4">
-                            @php 
-                                $limits = is_string($plan->limits) ? json_decode($plan->limits, true) : $plan->limits;
+                            @php
+                                $limits   = is_string($plan->limits) ? json_decode($plan->limits, true) : $plan->limits;
                                 $maxBranch = $limits['max_restaurants'] ?? 1;
-                                $maxMenu = $limits['max_menus'] ?? 10;
+                                $maxMenu   = $limits['max_menus'] ?? 10;
                             @endphp
                             <div class="flex items-center gap-3">
                                 <svg class="w-5 h-5 text-primary-600 dark:text-indigo-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -660,7 +749,8 @@
                             @endif
                         </div>
 
-                        <a href="{{ route('filament.restaurant.auth.login') }}" class="w-full text-center py-3 px-4 rounded-xl font-bold transition {{ $isPopular ? 'bg-primary-600 hover:bg-primary-500 text-white shadow-lg' : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 shadow-sm' }}">
+                        <a href="{{ route('filament.restaurant.auth.login') }}"
+                           class="w-full text-center py-3 px-4 rounded-xl font-bold transition {{ $isPopular ? 'bg-primary-600 hover:bg-primary-500 text-white shadow-lg' : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 shadow-sm' }}">
                             Pilih Paket
                         </a>
                     </div>

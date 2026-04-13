@@ -42,21 +42,41 @@ class SubscriptionPlanResource extends Resource
                             ->maxLength(120)
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('price')
+                            ->label('Harga Bulanan')
                             ->required()
                             ->prefix('Rp')
                             ->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))
                             ->formatStateUsing(fn ($state) => $state ? number_format((float) $state, 0, ',', '.') : null)
-                            ->dehydrateStateUsing(fn ($state) => (float) str_replace('.', '', $state ?? 0)),
+                            ->dehydrateStateUsing(fn ($state) => (float) str_replace('.', '', $state ?? 0))
+                            ->helperText('Harga yang ditagih setiap bulan.'),
                         Forms\Components\TextInput::make('duration_days')
                             ->required()
                             ->numeric()
                             ->default(30)
                             ->suffix('days'),
-                        Forms\Components\Select::make('billing_period')
-                            ->label('Periode Billing')
-                            ->options(['monthly' => 'Bulanan', 'yearly' => 'Tahunan'])
-                            ->default('monthly')
-                            ->required(),
+                        Forms\Components\Toggle::make('has_yearly')
+                            ->label('Aktifkan Periode Tahunan')
+                            ->helperText('Jika aktif, tampilkan opsi bayar tahunan dengan harga khusus di landing page.')
+                            ->default(false)
+                            ->onColor('success')
+                            ->live(),
+                        Forms\Components\TextInput::make('yearly_price')
+                            ->label('Harga Tahunan')
+                            ->prefix('Rp')
+                            ->mask(RawJs::make('$money($input, \',\', \'.\', 0)'))
+                            ->formatStateUsing(fn ($state) => $state ? number_format((float) $state, 0, ',', '.') : null)
+                            ->dehydrateStateUsing(fn ($state) => $state ? (float) str_replace('.', '', $state) : null)
+                            ->helperText(function (Forms\Get $get) {
+                                $monthly = (float) str_replace('.', '', $get('price') ?? 0);
+                                $yearly  = (float) str_replace('.', '', $get('yearly_price') ?? 0);
+                                if ($monthly > 0 && $yearly > 0) {
+                                    $saving = round((($monthly * 12 - $yearly) / ($monthly * 12)) * 100);
+                                    return $saving > 0 ? "💰 Pelanggan hemat {$saving}% dibanding bayar bulanan." : 'Masukkan harga tahunan lebih rendah dari harga bulanan × 12.';
+                                }
+                                return 'Contoh: jika bulanan Rp 175.000, tahunan bisa Rp 1.750.000 (hemat ~17%).';
+                            })
+                            ->visible(fn (Forms\Get $get) => (bool) $get('has_yearly'))
+                            ->required(fn (Forms\Get $get) => (bool) $get('has_yearly')),
                         Forms\Components\Toggle::make('is_active')
                             ->required()
                             ->default(true),
@@ -241,9 +261,19 @@ class SubscriptionPlanResource extends Resource
                     ->sortable()
                     ->description(fn ($record) => $record->description),
                 Tables\Columns\TextColumn::make('price')
+                    ->label('Harga Bulanan')
                     ->money('IDR')
                     ->sortable()
-                    ->description(fn ($record) => $record->billing_period === 'yearly' ? 'per tahun' : 'per bulan'),
+                    ->description(fn ($record) => $record->has_yearly
+                        ? 'Tahunan: Rp '.number_format($record->yearly_price, 0, ',', '.').' (hemat '.$record->yearlySavingsPercent().'%)'
+                        : 'Belum ada harga tahunan'),
+                Tables\Columns\IconColumn::make('has_yearly')
+                    ->label('Ada Harga Tahunan')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-calendar-days')
+                    ->falseIcon('heroicon-o-minus')
+                    ->trueColor('success')
+                    ->falseColor('gray'),
                 Tables\Columns\TextColumn::make('duration_days')
                     ->numeric()
                     ->sortable()
