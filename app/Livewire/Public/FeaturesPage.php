@@ -20,6 +20,7 @@ class FeaturesPage extends Component
             'pos' => ['icon' => 'credit-card', 'title' => 'POS Internal & Kasir'],
             'kiosk' => ['icon' => 'smartphone', 'title' => 'Self-Service Kiosk'],
             'loyalty' => ['icon' => 'heart', 'title' => 'Loyalitas & Marketing'],
+            'engagement' => ['icon' => 'star', 'title' => 'Premium Microsite & Events'],
             'finance' => ['icon' => 'cash-register', 'title' => 'Keuangan & Ledger'],
             'analytics' => ['icon' => 'stats', 'title' => 'Analitik & Laporan'],
             'notif' => ['icon' => 'bell-concierge', 'title' => 'Notifikasi & Real-time'],

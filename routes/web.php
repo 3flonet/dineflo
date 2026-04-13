@@ -35,6 +35,9 @@ Route::prefix('install')->group(function () {
 // Public Pages
 Route::get('/restaurants', App\Livewire\Public\RestaurantList::class)->name('frontend.restaurants.index');
 Route::get('/resto/{restaurant:slug}', App\Livewire\Public\RestaurantProfile::class)->name('frontend.restaurants.show');
+Route::scopeBindings()->group(function () {
+    Route::get('/resto/{restaurant:slug}/wedding/{package:slug}', App\Livewire\Public\WeddingPackageDetail::class)->name('frontend.wedding.show');
+});
 
 // WebPush Subscription
 Route::post('/push-subscription', [App\Http\Controllers\PushSubscriptionController::class, 'store'])->middleware('auth');

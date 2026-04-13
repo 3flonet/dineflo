@@ -1,7 +1,7 @@
-# 🏛️ Dineflo v2 - Master Project Overview & 46 Core Features Guide
+# 🏛️ Dineflo v2 - Master Project Overview & 49 Core Features Guide
 
 ## 📋 Pendahuluan
-**Dineflo v2** adalah platform SaaS Manajemen Restoran & POS yang menggunakan arsitektur **Multi-Tenancy** native. Dokumen ini merincikan 46 fitur utama yang dirancang untuk mendigitalisasi seluruh aspek operasional restoran, mulai dari front-office hingga back-office.
+**Dineflo v2** adalah platform SaaS Manajemen Restoran & POS yang menggunakan arsitektur **Multi-Tenancy** native. Dokumen ini merincikan 49+ fitur utama yang dirancang untuk mendigitalisasi seluruh aspek operasional restoran, mulai dari front-office hingga back-office.
 
 ---
 
@@ -12,7 +12,7 @@
 
 ---
 
-## 🚀 Daftar 46 Fitur Utama
+## 🚀 Daftar 49+ Fitur Utama
 
 ### 🛒 A. Ordering & Customer Experience (7 Fitur)
 1. **QR Order Mandiri:** Pelanggan memesan langsung dari meja via browser tanpa perlu download aplikasi. Mengurangi beban kerja pelayan hingga 40%.
@@ -59,7 +59,7 @@
 34. **Customer Analytics:** Membedah profil pelanggan, frekuensi kunjungan, dan *Lifetime Value* pelanggan untuk program CRM.
 35. **Food Cost & Recipe Insight:** Menghitung margin keuntungan setiap piring makanan berdasarkan harga bahan baku pasar yang fluktuatif.
 
-### 📱 F. Marketing & Infrastructure (11 Fitur)
+### 📱 F. Marketing & Infrastructure (14 Fitur)
 36. **Self-Service Kiosk:** Layar sentuh mandiri di lobi restoran untuk pelanggan memesan dan membayar langsung tanpa bantuan kasir.
 37. **Member Loyalty & Tiering:** Sistem peringkat member (Silver, Gold, Platinum) dengan diskon otomatis menyesuaikan tingkat loyalitas pelanggan.
 38. **WhatsApp Gateway & CRM:** Integrasi pesan otomatis untuk kirim nota, OTP login, dan broadcast promo produk baru langsung ke WhatsApp pelanggan.
@@ -71,6 +71,9 @@
 44. **Advanced Role & Permission:** Keamanan tingkat tinggi dengan izin akses berbeda-beda untuk setiap jabatan staff restoran.
 45. **Multi-Restaurant HQ:** Kemampuan mengelola ribuan cabang hanya dengan satu identitas login, mendukung ekspansi bisnis skala besar.
 46. **Draggable & Personal Dashboard:** Personalisasi tampilan dashboard utama per user menggunakan antarmuka seret-dan-lepas (Drag & Drop) yang user-friendly.
+47. **Wedding & Event Packages:** Halaman detail premium untuk paket pernikahan/event dengan manajemen galeri imersif, kapasitas tamu, dan harga transparan untuk meningkatkan konversi event besar.
+48. **Restaurant Facilities & Gallery:** Dokumentasi visual fasilitas unggulan restoran (VIP room, WiFi, live music, dll) yang terorganisir untuk memperkuat *branding* microsite.
+49. **Intelligent Lead Chatbot:** Bot otomatis bergaya WhatsApp dengan simulasi "sedang mengetik" yang realistis, terintegrasi dengan CRM untuk menangkap data calon pelanggan secara cerdas 24/7.
 
 ---
 
@@ -82,4 +85,4 @@
 - **Database:** MySQL 8.0+
 
 ---
-*Dokumen ini merupakan aset intelektual Dineflo v2. Terakhir Diperbarui: 11 April 2026.*
+*Dokumen ini merupakan aset intelektual Dineflo v2. Terakhir Diperbarui: 12 April 2026.*

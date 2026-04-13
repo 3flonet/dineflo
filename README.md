@@ -39,6 +39,11 @@ For a comprehensive deep dive into the **46+ advanced features** and detailed sy
 - **Loyalty Program:** Tiered loyalty points (Silver, Gold) to increase customer retention.
 - **Manual Menu Reordering:** Easily organize menu categories and items using a simple drag-and-drop handles.
 - **Marketing Tools:** Integrated Email and WhatsApp campaign management.
+
+### 💎 Premium Branding & Events
+- **Wedding & Event Packages:** Dedicated premium detail pages for wedding packages with gallery management and capacity tracking.
+- **Restaurant Facilities & Gallery:** Showcase your venue's unique amenities (VIP rooms, live music, etc.) with immersive photo galleries.
+- **SEO-Friendly Microsite:** Enhance discoverability for major events and banquet services.
 - **Smart Chatbot Integration:** Real-time AI-powered lead generation with WhatsApp-style UI and automated data capture. [**View Chatbot Guide**](DOCS_CHATBOT.md)
 
 

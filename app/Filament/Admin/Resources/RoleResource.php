@@ -109,6 +109,81 @@ class RoleResource extends Resource
                 Forms\Components\Section::make('Hak Akses (Permissions)')
                     ->description('Tentukan izin untuk role ini. Setiap fitur dikelompokkan per resource agar mudah dibaca.')
                     ->schema([
+                        Forms\Components\Placeholder::make('_perm_search')
+                            ->label('')
+                            ->content(new \Illuminate\Support\HtmlString(<<<'HTML'
+                                <div style="position:relative;margin-bottom:4px;">
+                                    <div style="position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none;">
+                                        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#9ca3af" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                        </svg>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        id="perm-search-box"
+                                        placeholder="🔍  Cari permission... (contoh: order, menu, user, campaign)"
+                                        oninput="dinefloSearchPerms(this.value)"
+                                        autocomplete="off"
+                                        style="width:100%;padding:10px 36px 10px 38px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:13px;font-weight:500;color:#111827;background:#fafafa;box-sizing:border-box;outline:none;transition:border-color .15s,box-shadow .15s;"
+                                        onfocus="this.style.borderColor='#6366f1';this.style.background='white';this.style.boxShadow='0 0 0 3px rgba(99,102,241,0.12)'"
+                                        onblur="this.style.borderColor='#e5e7eb';this.style.background='#fafafa';this.style.boxShadow='none'"
+                                    >
+                                    <button
+                                        id="perm-search-clear"
+                                        type="button"
+                                        onclick="dinefloClearSearch()"
+                                        style="position:absolute;right:10px;top:50%;transform:translateY(-50%);display:none;background:none;border:none;cursor:pointer;padding:3px;border-radius:50%;color:#6b7280;line-height:1;"
+                                        title="Hapus pencarian"
+                                    >
+                                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                    <div id="perm-search-count" style="position:absolute;right:36px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:#6b7280;display:none;"></div>
+                                </div>
+                                <script>
+                                function dinefloSearchPerms(query) {
+                                    query = query.toLowerCase().trim();
+                                    var fieldsets = document.querySelectorAll('fieldset');
+                                    var visible = 0;
+                                    var counter = document.getElementById('perm-search-count');
+                                    var clearBtn = document.getElementById('perm-search-clear');
+
+                                    fieldsets.forEach(function(fs) {
+                                        var legend = fs.querySelector('legend');
+                                        var text = (legend ? legend.innerText : '').toLowerCase();
+                                        var wrapper = fs.parentElement;
+                                        if (query === '' || text.includes(query)) {
+                                            fs.style.display = '';
+                                            if (wrapper && wrapper !== fs) wrapper.style.display = '';
+                                            visible++;
+                                        } else {
+                                            fs.style.display = 'none';
+                                            if (wrapper && wrapper !== fs) wrapper.style.display = 'none';
+                                        }
+                                    });
+
+                                    if (clearBtn) clearBtn.style.display = query ? 'block' : 'none';
+
+                                    if (counter) {
+                                        if (query === '') {
+                                            counter.style.display = 'none';
+                                        } else {
+                                            counter.style.display = 'block';
+                                            counter.textContent = visible + ' ditemukan';
+                                            counter.style.color = visible > 0 ? '#059669' : '#dc2626';
+                                        }
+                                    }
+                                }
+                                function dinefloClearSearch() {
+                                    var input = document.getElementById('perm-search-box');
+                                    if (input) { input.value = ''; input.focus(); }
+                                    dinefloSearchPerms('');
+                                }
+                                </script>
+                            HTML))
+                            ->columnSpanFull(),
+
                         Forms\Components\Tabs::make('PermissionsTabs')
                             ->tabs(function () {
                                 $tabs = [];

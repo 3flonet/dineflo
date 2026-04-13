@@ -75,7 +75,13 @@ class WithdrawPage extends Page implements HasForms, HasTable
     public function form(Form $form): Form
     {
         $settings       = app(\App\Settings\GeneralSettings::class);
-        $adminFeePct    = $settings->dineflo_withdraw_admin_fee_percentage ?? 0;
+        $hasWithdrawFeature = auth()->user()?->hasFeature('Payment Gateway Withdraw');
+        $hasAdminFeeFeature = auth()->user()?->hasFeature('Admin Fee Withdraw');
+        
+        // Cek ganda: Fitur biaya admin hanya dianggap ada jika fitur pembayarannya sendiri aktif
+        $adminFeePct    = ($hasWithdrawFeature && $hasAdminFeeFeature) 
+                          ? ($settings->dineflo_withdraw_admin_fee_percentage ?? 0) 
+                          : 0;
         
         $tenant = Filament::getTenant();
         $pendingAmount = \App\Models\WithdrawRequest::where('restaurant_id', $tenant?->id)
@@ -166,8 +172,13 @@ class WithdrawPage extends Page implements HasForms, HasTable
             return;
         }
 
-        // Hitung admin fee
-        $adminFeePct = $settings->dineflo_withdraw_admin_fee_percentage ?? 0;
+        // Hitung admin fee berdasarkan korelasi fitur paket
+        $hasWithdrawFeature = auth()->user()?->hasFeature('Payment Gateway Withdraw');
+        $hasAdminFeeFeature = auth()->user()?->hasFeature('Admin Fee Withdraw');
+        $adminFeePct = ($hasWithdrawFeature && $hasAdminFeeFeature) 
+                       ? ($settings->dineflo_withdraw_admin_fee_percentage ?? 0) 
+                       : 0;
+        
         $amount      = (float) $data['amount'];
         $adminFeeAmt = round($amount * $adminFeePct / 100);
         $netTransfer = $amount - $adminFeeAmt;

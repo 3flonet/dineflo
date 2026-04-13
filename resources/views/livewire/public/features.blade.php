@@ -118,7 +118,7 @@
         <div class="mt-4 flex justify-center gap-3 flex-wrap text-xs text-gray-600">
             <span class="bp px-3 py-1 rounded-full font-semibold">⭐ Premium</span>
             <span class="bs px-3 py-1 rounded-full font-semibold">🔹 Standar</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">{{ $totalFeatures }} Fitur Tersedia</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">{{ $totalFeatures }} + Fitur Tersedia</span>
         </div>
     </main>
 
@@ -133,7 +133,7 @@
             aria-label="Kategori Fitur">
             @foreach([
                 ['all','Semua Fitur'],['order','🛒 Pemesanan'],['kitchen','🍳 Dapur & KDS'],['pos','💳 POS & Kasir'],
-                ['kiosk','🖥️ Kiosk'],['loyalty','🎁 Loyalitas'],['finance','💰 Keuangan'],['analytics','📊 Analitik'],
+                ['kiosk','🖥️ Kiosk'],['loyalty','🎁 Loyalitas'],['engagement','⭐ Microsite'],['finance','💰 Keuangan'],['analytics','📊 Analitik'],
                 ['notif','🔔 Notifikasi'],['pwa','📱 PWA'],['support','🎫 Bantuan'],['admin','⚙️ Admin']
             ] as [$tab,$label])
             <button @click="activeTab='{{ $tab }}'" 

@@ -76,50 +76,116 @@ class SubscriptionPlanResource extends Resource
                 Forms\Components\Section::make('Features & Limits')
                     ->schema([
                         Forms\Components\CheckboxList::make('features')
-                            ->options([
-                                'Multi-Restaurant Support' => 'Multi-Restaurant Support',
-                                // 'Unlimited Menu Items' => 'Unlimited Menu Items', // REMOVED: Redundant with limits.max_menus
-                                'QR Code Ordering' => 'QR Code Ordering',
-                                'Kitchen Display System' => 'Kitchen Display System',
-                                'Waiter Call System' => 'Waiter Call System',
-                                'POS System' => 'POS System',
-                                'Sales Reports' => 'Sales Reports',
-                                'Expense Management' => 'Expense Management (Profit/Loss Tracking)',
-                                'Membership & Loyalty' => 'Membership & Loyalty',
-                                'WhatsApp Marketing' => 'WhatsApp Marketing (Fonnte/Gateway)',
-                                'Email Marketing' => 'Email Marketing (Automation)',
-                                'Payment Gateway' => '💳 Payment Gateway (QRIS/E-Wallet Settings)',
-                                'Payment Gateway Withdraw' => '💰 Payment Gateway Withdraw (Saldo & Penarikan Dana)',
-                                'Inventory Level 2' => 'Inventory Level 2 (Recipe Management)',
-                                'Table Reservation' => 'Table Reservation & Waitlist',
-                                'Priority Support' => 'Priority Support',
-                                'Remove Branding' => 'Remove Branding',
-                                'Smart Upselling' => 'Smart Upselling (Recommendations)',
-                                'Kiosk Mode' => 'Kiosk Mode (Self-Service)',
-                                'Split Bill' => 'Split Bill (Partial Payment)',
-                                'Dynamic Pricing' => 'Dynamic Pricing (Discounts & Happy Hour)',
-                                'Voucher & Marketing' => 'Voucher & Marketing (Promo Codes & Targeting)',
-                                'Profit Margin Insights' => 'Profit Margin Insights (Menu Engineering)',
-                                'Customer Feedback & Ratings' => 'Customer Feedback & Ratings (Engagement)',
-                                'Feedback Reward Automation' => 'Feedback Reward Automation (Auto Point/Voucher)',
-                                'Advanced Kitchen Analytics' => 'Advanced Kitchen Analytics (KDS Performance)',
-                                'Staff Performance Tracking' => 'Staff Performance Tracking',
-                                'Refund Handling' => 'Refund Handling & Audit Trail',
-                                'Loss Prevention' => 'Loss Prevention Tools',
-                                'Cash Drawer Integration' => 'Cash Drawer Integration',
-                                'Gift Cards' => '🎁 Gift Cards (Digital Voucher Hadiah)',
-                                'EDC Integration' => '💳 EDC Payment Integration (Bank & MDR Config)',
-                                'Dashboard HQ' => 'Dashboard HQ (Franchise View)',
-                                'Queue Management System' => 'Queue Management System (TV Display & Waitlist)',
-                            ])
-                            ->columns(2)
-                            ->helperText('Select features visible to customers')
-                            ->live() // Aktifkan reaktivitas
+                            ->hintAction(
+                                Forms\Components\Actions\Action::make('feature_guide')
+                                    ->label('Bantuan Fitur')
+                                    ->icon('heroicon-o-information-circle')
+                                    ->modalHeading('Penjelasan Fungsi Fitur')
+                                    ->modalWidth('4xl')
+                                    ->modalSubmitAction(false)
+                                    ->modalCancelAction(false)
+                                    ->modalContent(fn () => view('filament.admin.modals.features-guide'))
+                            )
+                            ->options(function (Forms\Get $get) {
+                                $allFeatures = \App\Models\AppFeature::orderBy('title')->get();
+                                $selected = (array) ($get('features') ?? []);
+                                $siteName = app(\App\Settings\GeneralSettings::class)->site_name ?? config('app.name', 'Dineflo');
+                                
+                                // 1. Map Hubungan Induk -> Anak
+                                $hierarchy = [
+                                    'Payment Gateway'           => ['Payment Gateway Withdraw'],
+                                    'Payment Gateway Withdraw'  => ['Admin Fee Withdraw'],
+                                    'Multi-Restaurant HQ'       => ['Dashboard HQ (Franchise)'],
+                                    'Membership & Loyalty'      => ['WhatsApp Marketing', 'Email Marketing'],
+                                    'Stock Guard Real-time'     => ['Food Cost & Recipe Insight'],
+                                ];
+
+                                // 2. Tentukan urutan manual agar Anak selalu di bawah Induk
+                                $orderMap = [
+                                    'Payment Gateway'           => 10,
+                                    'Payment Gateway Withdraw'  => 11,
+                                    'Admin Fee Withdraw'        => 12,
+                                    'Multi-Restaurant HQ'       => 20,
+                                    'Dashboard HQ (Franchise)'  => 21,
+                                    'Membership & Loyalty'      => 30,
+                                    'WhatsApp Marketing'        => 31,
+                                    'Email Marketing'           => 32,
+                                    'Stock Guard Real-time'     => 40,
+                                    'Food Cost & Recipe Insight'=> 41,
+                                ];
+
+                                // 3. Filter pilihan berdasarkan Induk yang terceklis
+                                $filteredFeatures = $allFeatures->reject(function ($f) use ($hierarchy, $selected) {
+                                    foreach ($hierarchy as $parent => $children) {
+                                        if (!in_array($parent, $selected) && in_array($f->title, $children)) {
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                });
+
+                                // 4. Tambahkan Indentasi Visual/Symbol & Tooltip Icon ⓘ
+                                $finalOptions = [];
+                                foreach ($filteredFeatures as $feature) {
+                                    $isChild = false;
+                                    foreach($hierarchy as $p => $cs) if(in_array($feature->title, $cs)) $isChild = true;
+                                    
+                                    $label = ($isChild ? '↳ ' : '') . $feature->title;
+                                    
+                                    // Dynamize short description for tooltip
+                                    $tooltipText = str_replace([':site_name', 'Dineflo'], $siteName, $feature->short_description ?? '');
+
+                                    // Bikin HTML label dengan Ikon ⓘ yang punya tooltip bawaan browser
+                                    $htmlLabel = new \Illuminate\Support\HtmlString(
+                                        $label . ' <span class="text-gray-400 cursor-help ml-0.5" title="' . e($tooltipText) . '">ⓘ</span>'
+                                    );
+                                    
+                                    $finalOptions[$feature->title] = $htmlLabel;
+                                }
+
+                                // 5. Sortir akhir berdasarkan orderMap + default abjad untuk sisanya
+                                uksort($finalOptions, function($a, $b) use ($orderMap) {
+                                    $posA = $orderMap[$a] ?? 999;
+                                    $posB = $orderMap[$b] ?? 999;
+                                    if ($posA === $posB) return strcasecmp($a, $b);
+                                    return $posA <=> $posB;
+                                });
+
+                                return $finalOptions;
+                            })
+                            ->allowHtml() // Gunakan allowHtml agar ikon ⓘ terbaca
+                            ->columns(3)
+                            ->helperText('Select features visible to customers. Use "Bantuan Fitur" above for detailed explanation.')
+                            ->live() // Reaktivitas instan
                             ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set) {
-                                // Jika 'Membership & Loyalty' TIDAK dipilih, reset max_members ke 0
-                                $features = $get('features') ?? [];
+                                $features = (array) ($get('features') ?? []);
+                                $originalCount = count($features);
+
+                                // Aturan Pembersihan Berjenjang
+                                $dependencies = [
+                                    'Payment Gateway'           => ['Payment Gateway Withdraw', 'Admin Fee Withdraw'],
+                                    'Payment Gateway Withdraw'  => ['Admin Fee Withdraw'],
+                                    'Multi-Restaurant HQ'       => ['Dashboard HQ (Franchise)'],
+                                    'Membership & Loyalty'      => ['WhatsApp Marketing', 'Email Marketing'],
+                                    'Stock Guard Real-time'     => ['Food Cost & Recipe Insight'],
+                                ];
+
+                                foreach ($dependencies as $parent => $children) {
+                                    if (!in_array($parent, $features)) {
+                                        foreach ($children as $child) {
+                                            if (($key = array_search($child, $features)) !== false) {
+                                                unset($features[$key]);
+                                            }
+                                        }
+                                    }
+                                }
+
                                 if (!in_array('Membership & Loyalty', $features)) {
                                     $set('limits.max_members', 0);
+                                }
+
+                                if (count($features) !== $originalCount) {
+                                    $set('features', array_values($features));
                                 }
                             }),
                         

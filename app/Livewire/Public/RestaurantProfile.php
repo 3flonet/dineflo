@@ -92,9 +92,22 @@ class RestaurantProfile extends Component
     {
         $hasRemoveBranding = $this->restaurant->owner?->hasFeature('Remove Branding');
         
+        $facilities = $this->restaurant->facilities()
+            ->with('photos')
+            ->orderBy('sort_order')
+            ->get();
+        
+        $hasWeddingFeature = $this->restaurant->owner?->hasFeature('Wedding & Event Packages');
+        $weddingPackages = $hasWeddingFeature 
+            ? $this->restaurant->weddingPackages()->where('is_active', true)->orderBy('sort_order')->get()
+            : collect([]);
+        
         return view('livewire.public.restaurant-profile', [
             'feedbacks' => $this->feedbacks,
             'settings' => $settings,
+            'facilities' => $facilities,
+            'weddingPackages' => $weddingPackages,
+            'hasWeddingFeature' => $hasWeddingFeature,
         ])->layoutData([
             'title' => $this->restaurant->name,
             'restaurant' => $hasRemoveBranding ? $this->restaurant : null,

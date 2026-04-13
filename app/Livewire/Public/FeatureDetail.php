@@ -27,9 +27,14 @@ class FeatureDetail extends Component
             }
         }
 
+        $plans = \App\Models\SubscriptionPlan::where('is_active', true)
+            ->orderBy('price')
+            ->get();
+
         return view('livewire.public.feature-detail', [
             'settings' => $settings,
-            'normalizedBullets' => $bullets,
+            'normalizedBullets' => $normalizedBullets,
+            'plans' => $plans,
         ])->layout('components.layouts.app', ['hideLayoutFooter' => true]);
     }
 }

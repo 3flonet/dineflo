@@ -1,4 +1,12 @@
-@php $settings = $settings ?? app(\App\Settings\GeneralSettings::class); @endphp
+@php 
+    $settings = $settings ?? app(\App\Settings\GeneralSettings::class); 
+    $siteName = $settings->site_name ?? config('app.name', 'Dineflo');
+    
+    // Dynamize text
+    $dynamicTitle = str_replace([':site_name', 'Dineflo'], $siteName, $feature->title);
+    $dynamicShort = str_replace([':site_name', 'Dineflo'], $siteName, $feature->short_description);
+    $dynamicLong  = str_replace([':site_name', 'Dineflo'], $siteName, $feature->long_description);
+@endphp
 <div class="min-h-screen bg-white dark:bg-[#080B14] transition-colors duration-500 font-sans selection:bg-indigo-500/30">
     {{-- High-End Mesh Background --}}
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
@@ -10,7 +18,7 @@
     {{-- Sticky Minimal Nav (Back) --}}
     <div class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-[#080B14]/70 border-b border-gray-100 dark:border-white/5 transition-all">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="{{ route('features') }}" class="group flex items-center gap-2 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white transition-all">
+            <a href="{{ route('features') }}" class="group flex items-center gap-2 text-sm font-semibold text-gray-400 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white transition-all">
                 <div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center group-hover:-translate-x-1 transition-transform">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 </div>
@@ -39,11 +47,11 @@
                     </div>
 
                     <h1 class="text-5xl md:text-7xl font-black text-gray-900 dark:text-white leading-[1.1] tracking-tight mb-8">
-                        {{ $feature->title }}
+                        {{ $dynamicTitle }}
                     </h1>
                     
                     <p class="text-xl md:text-2xl text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
-                        {{ $feature->short_description }}
+                        {{ $dynamicShort }}
                     </p>
                 </div>
 
@@ -54,9 +62,12 @@
                         $bText = is_array($bullet) ? ($bullet['bullet'] ?? '') : $bullet;
                         $bIcon = is_array($bullet) ? ($bullet['icon'] ?? 'star') : 'star';
                         
-                        // Clean up icon name (remove prefixes like 'fi fi-rr-' if present)
+                        // Clean up icon name 
                         $bIcon = str_replace(['fi ', 'fi-rr-', 'fi-rs-', 'fi-br-', 'fi-sr-'], '', $bIcon);
                         $svgPath = public_path("vendor/uicons-regular-rounded/svg/fi-rr-{$bIcon}.svg");
+
+                        // Dynamize bullet text too
+                        $bText = str_replace([':site_name', 'Dineflo'], $siteName, $bText);
                     @endphp
                     <div class="p-8 rounded-[32px] bg-white/50 dark:bg-white/5 border border-gray-100 dark:border-white/5 hover:border-indigo-500/30 hover:bg-white dark:hover:bg-white/10 transition-all duration-500 group shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 active:scale-[0.98]">
                         <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-6 group-hover:rotate-12 transition-transform duration-500">
@@ -81,7 +92,7 @@
                     prose-li:text-gray-600 dark:prose-li:text-gray-400
                     prose-img:rounded-3xl prose-img:shadow-2xl prose-strong:text-indigo-600 dark:prose-strong:text-indigo-400">
                     <div class="h-1.5 w-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mb-12"></div>
-                    {!! $feature->long_description ?: '<p class="italic opacity-50">Explorasi mendalam untuk fitur ini sedang disiapkan...</p>' !!}
+                    {!! $dynamicLong ?: '<p class="italic opacity-50">Explorasi mendalam untuk fitur ini sedang disiapkan...</p>' !!}
                 </div>
             </div>
 
@@ -160,10 +171,17 @@
                         <p class="text-indigo-100/80 mb-8 text-sm font-medium italic">Transformasi operasional Anda mulai hari ini.</p>
                         
                         <div class="space-y-3 mb-10 relative z-10">
-                            @foreach(['Starter', 'Essential', 'Strategy'] as $plan)
+                            @foreach($plans as $plan)
                             @php 
-                                $isAvailable = ($feature->badge === 'Premium' && $plan === 'Strategy') || 
-                                               ($feature->badge === 'Standar' && $plan !== 'Starter');
+                                $isExplicitlyIncluded = in_array($feature->title, (array)($plan->features ?? []));
+                                
+                                // Smart Logic: 
+                                // 1. Strategy Plan always includes everything
+                                // 2. Standard features are included in all paid plans (Price > 0)
+                                // 3. Otherwise, check explicit inclusion from database
+                                $isAvailable = $isExplicitlyIncluded || 
+                                               (strtolower($plan->name) === 'strategy') || 
+                                               (isset($plan->price) && $plan->price > 0 && $feature->badge === 'Standar');
                             @endphp
                             <div class="flex items-center justify-between p-4 rounded-3xl transition-all duration-300 {{ $isAvailable ? 'bg-white/15 border border-white/20 shadow-inner' : 'bg-black/10 opacity-40 grayscale' }}">
                                 <div class="flex items-center gap-3">
@@ -174,7 +192,7 @@
                                             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                                         @endif
                                     </div>
-                                    <span class="font-black text-sm tracking-tight">{{ $plan }}</span>
+                                    <span class="font-black text-sm tracking-tight">{{ $plan->name }}</span>
                                 </div>
                                 <span class="text-[10px] font-black tracking-widest uppercase {{ $isAvailable ? 'text-white' : 'text-white/40' }}">
                                     {{ $isAvailable ? 'Included' : 'Unavailable' }}

@@ -117,6 +117,7 @@ class TableResource extends Resource
                     ->color('primary')
                     ->url(fn () => route('restaurant.tables.qr-designer', ['restaurant' => $tenant->slug]))
                     ->openUrlInNewTab()
+                    ->visible(fn () => auth()->user()?->hasFeature('QR Tabel'))
                     ->tooltip('Buka Global QR Card Designer untuk memperbarui template desain QR'),
 
                 // ── Bulk Print Button ──
@@ -126,6 +127,7 @@ class TableResource extends Resource
                     ->color('success')
                     ->url(fn () => route('restaurant.tables.qr-bulk-print', ['restaurant' => $tenant->slug]))
                     ->openUrlInNewTab()
+                    ->visible(fn () => auth()->user()?->hasFeature('QR Order Mandiri'))
                     ->tooltip('Cetak kartu QR untuk semua meja aktif berdasarkan desain global'),
             ])
             ->actions([
